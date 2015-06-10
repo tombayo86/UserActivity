@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		33E1B1001B28A01800B10155 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B0FF1B28A01800B10155 /* main.m */; };
 		33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1021B28A01800B10155 /* AppDelegate.m */; };
-		33E1B1061B28A01800B10155 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* ViewController.m */; };
+		33E1B1061B28A01800B10155 /* UserLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UserLogInViewController.m */; };
 		33E1B1091B28A01800B10155 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B1071B28A01800B10155 /* Main.storyboard */; };
 		33E1B10B1B28A01800B10155 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B10A1B28A01800B10155 /* Images.xcassets */; };
 		33E1B10E1B28A01800B10155 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B10C1B28A01800B10155 /* LaunchScreen.xib */; };
@@ -29,6 +29,8 @@
 		33E1B13D1B28A0EE00B10155 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B13C1B28A0EE00B10155 /* libsqlite3.dylib */; };
 		33E1B13F1B28A0F300B10155 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B13E1B28A0F300B10155 /* Accounts.framework */; };
 		33E1B1411B28A0F700B10155 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B1401B28A0F700B10155 /* Social.framework */; };
+		33E1B1451B28BD2700B10155 /* ParseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1441B28BD2700B10155 /* ParseService.m */; };
+		33E1B1481B28BD3F00B10155 /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1471B28BD3F00B10155 /* ServiceManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,8 +49,8 @@
 		33E1B0FF1B28A01800B10155 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33E1B1011B28A01800B10155 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33E1B1021B28A01800B10155 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		33E1B1041B28A01800B10155 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		33E1B1051B28A01800B10155 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		33E1B1041B28A01800B10155 /* UserLogInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLogInViewController.h; sourceTree = "<group>"; };
+		33E1B1051B28A01800B10155 /* UserLogInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserLogInViewController.m; sourceTree = "<group>"; };
 		33E1B1081B28A01800B10155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		33E1B10A1B28A01800B10155 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		33E1B10D1B28A01800B10155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -70,6 +72,11 @@
 		33E1B13C1B28A0EE00B10155 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		33E1B13E1B28A0F300B10155 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		33E1B1401B28A0F700B10155 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		33E1B1431B28BD2700B10155 /* ParseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseService.h; path = Service/ParseService.h; sourceTree = "<group>"; };
+		33E1B1441B28BD2700B10155 /* ParseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseService.m; path = Service/ParseService.m; sourceTree = "<group>"; };
+		33E1B1461B28BD3F00B10155 /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Service/ServiceManager.h; sourceTree = "<group>"; };
+		33E1B1471B28BD3F00B10155 /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Service/ServiceManager.m; sourceTree = "<group>"; };
+		33E1B1491B28EE4A00B10155 /* DataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataService.h; path = Service/DataService.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +133,9 @@
 		33E1B0FC1B28A01800B10155 /* UserActivity */ = {
 			isa = PBXGroup;
 			children = (
-				33E1B1041B28A01800B10155 /* ViewController.h */,
-				33E1B1051B28A01800B10155 /* ViewController.m */,
+				33E1B1421B28BCEA00B10155 /* Service */,
+				33E1B1041B28A01800B10155 /* UserLogInViewController.h */,
+				33E1B1051B28A01800B10155 /* UserLogInViewController.m */,
 				33E1B1071B28A01800B10155 /* Main.storyboard */,
 				33E1B10A1B28A01800B10155 /* Images.xcassets */,
 				33E1B10C1B28A01800B10155 /* LaunchScreen.xib */,
@@ -185,6 +193,18 @@
 				33E1B1251B28A05F00B10155 /* Parse.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		33E1B1421B28BCEA00B10155 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				33E1B1431B28BD2700B10155 /* ParseService.h */,
+				33E1B1441B28BD2700B10155 /* ParseService.m */,
+				33E1B1461B28BD3F00B10155 /* ServiceManager.h */,
+				33E1B1471B28BD3F00B10155 /* ServiceManager.m */,
+				33E1B1491B28EE4A00B10155 /* DataService.h */,
+			);
+			name = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -287,7 +307,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33E1B1061B28A01800B10155 /* ViewController.m in Sources */,
+				33E1B1061B28A01800B10155 /* UserLogInViewController.m in Sources */,
+				33E1B1451B28BD2700B10155 /* ParseService.m in Sources */,
+				33E1B1481B28BD3F00B10155 /* ServiceManager.m in Sources */,
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
 			);

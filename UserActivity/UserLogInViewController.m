@@ -6,14 +6,14 @@
 //  Copyright (c) 2015 bitelz. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "UserLogInViewController.h"
 #import <Parse/Parse.h>
 
-@interface ViewController ()
+@interface UserLogInViewController ()
 
 @end
 
-@implementation ViewController
+@implementation UserLogInViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
