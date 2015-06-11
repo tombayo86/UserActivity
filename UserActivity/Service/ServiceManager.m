@@ -11,7 +11,6 @@
 @interface ServiceManager()
 
 @property (strong, nonatomic) ParseService *parseService;
-
 @property (strong, nonatomic) id<DataService> dataService;
 
 @end
@@ -23,6 +22,7 @@
 {
     static ServiceManager *_instance;
     static dispatch_once_t oncePredicate;
+    
     dispatch_once(&oncePredicate, ^{
         _instance = [[self alloc] init];
     });
@@ -36,11 +36,6 @@
         self.dataService = self.parseService;
     }
     return self;
-}
-
--(void)logUserIn:(NSString *)username withPassword:(NSString *)password
-{
-    [self.dataService logUserIn: username withPassword: password];
 }
 
 -(void)getUserData
@@ -59,10 +54,6 @@
 
 #pragma mark - DataService Delegate methods
 
--(void)loginSucces
-{
-    [self getUserData];
-}
 
 -(void)userDataDownloadDidFinish:(NSArray *)userData
 {
@@ -79,9 +70,5 @@
     [self.delegate serviceError:error];
 }
 
--(void)userLoginError: (NSError *)error
-{
-    [self.delegate userLoginError];
-}
 
 @end

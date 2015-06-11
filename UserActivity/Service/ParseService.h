@@ -7,8 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Parse/Parse.h>
 #import "DataService.h"
 
 @interface ParseService : NSObject <DataService>
+
+@property (weak, nonatomic) id<DataServiceDelegate> delegate;
 
 @end

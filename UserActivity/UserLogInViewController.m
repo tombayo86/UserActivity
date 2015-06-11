@@ -7,9 +7,12 @@
 //
 
 #import "UserLogInViewController.h"
+#import "ServiceManager.h"
 #import <Parse/Parse.h>
 
 @interface UserLogInViewController ()
+
+@property (strong, nonatomic) ServiceManager *serviceManager;
 
 @end
 
@@ -17,12 +20,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    [self.serviceManager getUserData];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark Custom setters and getters
+
+-(ServiceManager *)serviceManager
+{
+    if(!_serviceManager) _serviceManager = [[ServiceManager alloc] init];
+    
+    return _serviceManager;
 }
 
 @end

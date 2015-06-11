@@ -11,7 +11,6 @@
 
 @protocol ServiceManagerDelegate <NSObject>
 
--(void)userLoginError;
 -(void)userDataDownloadDidFinish: (NSArray *)userData;
 -(void)userDataDownloadProgress: (NSNumber *)progress;
 -(void)serviceError: (NSError *)error;
@@ -20,8 +19,8 @@
 
 @interface ServiceManager : NSObject <DataServiceDelegate>
 
--(void)logUserIn:(NSString *)username withPassword:(NSString *)password;
-
 @property (weak, nonatomic) id<ServiceManagerDelegate> delegate;
+
+-(void)getUserData;
 
 @end
