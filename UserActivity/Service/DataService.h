@@ -8,6 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol DataService <NSObject>
+@protocol DataServiceDelegate <NSObject>
+
+-(void)userDataDownloadDidFinish: (NSArray *)userData;
+-(void)userDataDownloadProgress: (NSNumber *)progress;
+-(void)serviceError:(NSError *)error;
+-(void)userLoginError: (NSError *)error;
+-(void)loginSucces;
 
 @end
+
+@protocol DataService <NSObject>
+
+@property (weak, nonatomic) id<DataServiceDelegate> delegate;
+
+-(void)logUserIn: (NSString *)login withPassword:(NSString *)password;
+-(void)getUserData;
+
+@end
+
+

@@ -18,7 +18,7 @@
 
 @end
 
-@interface ServiceManager : NSObject
+@interface ServiceManager : NSObject <DataServiceDelegate>
 
 -(void)logUserIn:(NSString *)username withPassword:(NSString *)password;
 

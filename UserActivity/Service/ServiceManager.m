@@ -18,6 +18,17 @@
 
 @implementation ServiceManager
 
+
++ (ServiceManager *)sharedManager
+{
+    static ServiceManager *_instance;
+    static dispatch_once_t oncePredicate;
+    dispatch_once(&oncePredicate, ^{
+        _instance = [[self alloc] init];
+    });
+    return _instance;
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -29,22 +40,12 @@
 
 -(void)logUserIn:(NSString *)username withPassword:(NSString *)password
 {
-   // [self.dataService logUserIn: login withPassword: password];
-}
-
--(void)loginError: (NSError *)error
-{
-    [self.delegate userLoginError];
-}
-
--(void)loginSucces
-{
-    [self getUserData];
+    [self.dataService logUserIn: username withPassword: password];
 }
 
 -(void)getUserData
 {
-    
+    [self.dataService getUserData];
 }
 
 #pragma mark - Custom getters and setters
@@ -56,6 +57,31 @@
     return _parseService;
 }
 
+#pragma mark - DataService Delegate methods
 
+-(void)loginSucces
+{
+    [self getUserData];
+}
+
+-(void)userDataDownloadDidFinish:(NSArray *)userData
+{
+    [self.delegate userDataDownloadDidFinish:userData];
+}
+
+-(void)userDataDownloadProgress:(NSNumber *)progress
+{
+    [self.delegate userDataDownloadProgress:progress];
+}
+
+-(void)serviceError:(NSError *)error
+{
+    [self.delegate serviceError:error];
+}
+
+-(void)userLoginError: (NSError *)error
+{
+    [self.delegate userLoginError];
+}
 
 @end
