@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		338424151B2ADF00002C7E1F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 338424141B2ADF00002C7E1F /* ParseUI.framework */; };
+		33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */; };
+		33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931F1B2AEA660047C256 /* ActivityViewCell.m */; };
 		33E1B1001B28A01800B10155 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B0FF1B28A01800B10155 /* main.m */; };
 		33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1021B28A01800B10155 /* AppDelegate.m */; };
-		33E1B1061B28A01800B10155 /* UserLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UserLogInViewController.m */; };
+		33E1B1061B28A01800B10155 /* UserActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UserActivityViewController.m */; };
 		33E1B1091B28A01800B10155 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B1071B28A01800B10155 /* Main.storyboard */; };
 		33E1B10B1B28A01800B10155 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B10A1B28A01800B10155 /* Images.xcassets */; };
 		33E1B10E1B28A01800B10155 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33E1B10C1B28A01800B10155 /* LaunchScreen.xib */; };
@@ -45,13 +47,17 @@
 
 /* Begin PBXFileReference section */
 		338424141B2ADF00002C7E1F /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		33A9931B1B2AEA3F0047C256 /* ChartViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartViewCell.h; path = View/ChartViewCell.h; sourceTree = "<group>"; };
+		33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartViewCell.m; path = View/ChartViewCell.m; sourceTree = "<group>"; };
+		33A9931E1B2AEA660047C256 /* ActivityViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ActivityViewCell.h; path = View/ActivityViewCell.h; sourceTree = "<group>"; };
+		33A9931F1B2AEA660047C256 /* ActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityViewCell.m; path = View/ActivityViewCell.m; sourceTree = "<group>"; };
 		33E1B0FA1B28A01800B10155 /* UserActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E1B0FE1B28A01800B10155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33E1B0FF1B28A01800B10155 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		33E1B1011B28A01800B10155 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		33E1B1021B28A01800B10155 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		33E1B1041B28A01800B10155 /* UserLogInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserLogInViewController.h; sourceTree = "<group>"; };
-		33E1B1051B28A01800B10155 /* UserLogInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserLogInViewController.m; sourceTree = "<group>"; };
+		33E1B1041B28A01800B10155 /* UserActivityViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserActivityViewController.h; sourceTree = "<group>"; };
+		33E1B1051B28A01800B10155 /* UserActivityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserActivityViewController.m; sourceTree = "<group>"; };
 		33E1B1081B28A01800B10155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		33E1B10A1B28A01800B10155 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		33E1B10D1B28A01800B10155 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -112,6 +118,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33A9931A1B2AEA010047C256 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				33A9931B1B2AEA3F0047C256 /* ChartViewCell.h */,
+				33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */,
+				33A9931E1B2AEA660047C256 /* ActivityViewCell.h */,
+				33A9931F1B2AEA660047C256 /* ActivityViewCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		33E1B0F11B28A01800B10155 = {
 			isa = PBXGroup;
 			children = (
@@ -133,9 +150,10 @@
 		33E1B0FC1B28A01800B10155 /* UserActivity */ = {
 			isa = PBXGroup;
 			children = (
-				33E1B1421B28BCEA00B10155 /* Service */,
-				33E1B1041B28A01800B10155 /* UserLogInViewController.h */,
-				33E1B1051B28A01800B10155 /* UserLogInViewController.m */,
+				33A9931A1B2AEA010047C256 /* View */,
+				33E1B1421B28BCEA00B10155 /* Model */,
+				33E1B1041B28A01800B10155 /* UserActivityViewController.h */,
+				33E1B1051B28A01800B10155 /* UserActivityViewController.m */,
 				33E1B1071B28A01800B10155 /* Main.storyboard */,
 				33E1B10A1B28A01800B10155 /* Images.xcassets */,
 				33E1B10C1B28A01800B10155 /* LaunchScreen.xib */,
@@ -195,7 +213,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		33E1B1421B28BCEA00B10155 /* Service */ = {
+		33E1B1421B28BCEA00B10155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				33E1B1431B28BD2700B10155 /* ParseService.h */,
@@ -204,7 +222,7 @@
 				33E1B1471B28BD3F00B10155 /* ServiceManager.m */,
 				33E1B1491B28EE4A00B10155 /* DataService.h */,
 			);
-			name = Service;
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,11 +331,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33E1B1061B28A01800B10155 /* UserLogInViewController.m in Sources */,
+				33E1B1061B28A01800B10155 /* UserActivityViewController.m in Sources */,
 				33E1B1451B28BD2700B10155 /* ParseService.m in Sources */,
 				33E1B1481B28BD3F00B10155 /* ServiceManager.m in Sources */,
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
+				33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */,
+				33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
