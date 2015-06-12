@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ServiceManager.h"
+#import <Parse/Parse.h>
+#import <ParseUI/ParseUI.h>
 
-@interface UserLogInViewController : UIViewController
+@interface UserLogInViewController : UIViewController <PFLogInViewControllerDelegate>
 
 
 @end
