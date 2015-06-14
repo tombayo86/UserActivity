@@ -7,11 +7,16 @@
 //
 
 #import "ServiceManager.h"
+#import "Parser.h"
+#import "ParseParser.h"
 
 @interface ServiceManager()
 
 @property (strong, nonatomic) ParseService *parseService;
-@property (strong, nonatomic) id<DataService> dataService;
+@property (weak, nonatomic) id<DataService> dataService;
+
+@property (weak, nonatomic) id<Parser> parser;
+@property (strong, nonatomic) ParseParser *parseParser;
 
 @end
 
@@ -33,10 +38,17 @@
 {
     self = [super init];
     if (self) {
-        self.dataService = self.parseService;
-        self.parseService.delegate = self;
+        [self setupParse];
+        
     }
     return self;
+}
+
+-(void)setupParse
+{
+    self.dataService = self.parseService;
+    self.parseService.delegate = self;
+    self.parser = self.parseParser;
 }
 
 -(void)getUserData
@@ -53,12 +65,19 @@
     return _parseService;
 }
 
+-(ParseParser *)parseParser
+{
+    if(!_parseParser) _parseParser = [[ParseParser alloc] init];
+    
+    return _parseParser;
+}
+
 #pragma mark - DataService Delegate methods
 
 
 -(void)userDataDownloadDidFinish:(NSArray *)userData
 {
-    [self.delegate userDataDownloadDidFinish:userData];
+    [self.delegate userDataDownloadDidFinish:[self.parser parse:userData]];
 }
 
 -(void)serviceError:(NSError *)error

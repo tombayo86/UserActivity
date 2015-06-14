@@ -10,6 +10,8 @@
 		335606F51B2E067100A4546E /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606F41B2E067100A4546E /* ChartView.m */; };
 		335606FE1B2E1EF700A4546E /* ParseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FB1B2E1EF700A4546E /* ParseService.m */; };
 		335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FD1B2E1EF700A4546E /* ServiceManager.m */; };
+		335607091B2E220500A4546E /* ParseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 335607081B2E220500A4546E /* ParseParser.m */; };
+		3356070C1B2E227600A4546E /* UserActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3356070B1B2E227600A4546E /* UserActivity.m */; };
 		338424151B2ADF00002C7E1F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 338424141B2ADF00002C7E1F /* ParseUI.framework */; };
 		33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */; };
 		33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931F1B2AEA660047C256 /* ActivityViewCell.m */; };
@@ -54,6 +56,11 @@
 		335606FB1B2E1EF700A4546E /* ParseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseService.m; path = Model/ParseService.m; sourceTree = "<group>"; };
 		335606FC1B2E1EF700A4546E /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Model/ServiceManager.h; sourceTree = "<group>"; };
 		335606FD1B2E1EF700A4546E /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Model/ServiceManager.m; sourceTree = "<group>"; };
+		335607061B2E21CB00A4546E /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Model/Parser.h; sourceTree = "<group>"; };
+		335607071B2E220500A4546E /* ParseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseParser.h; path = Model/ParseParser.h; sourceTree = "<group>"; };
+		335607081B2E220500A4546E /* ParseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseParser.m; path = Model/ParseParser.m; sourceTree = "<group>"; };
+		3356070A1B2E227600A4546E /* UserActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserActivity.h; path = Model/UserActivity.h; sourceTree = "<group>"; };
+		3356070B1B2E227600A4546E /* UserActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserActivity.m; path = Model/UserActivity.m; sourceTree = "<group>"; };
 		338424141B2ADF00002C7E1F /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		33A9931B1B2AEA3F0047C256 /* ChartViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartViewCell.h; path = View/ChartViewCell.h; sourceTree = "<group>"; };
 		33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartViewCell.m; path = View/ChartViewCell.m; sourceTree = "<group>"; };
@@ -226,6 +233,11 @@
 				335606FB1B2E1EF700A4546E /* ParseService.m */,
 				335606FC1B2E1EF700A4546E /* ServiceManager.h */,
 				335606FD1B2E1EF700A4546E /* ServiceManager.m */,
+				335607061B2E21CB00A4546E /* Parser.h */,
+				335607071B2E220500A4546E /* ParseParser.h */,
+				335607081B2E220500A4546E /* ParseParser.m */,
+				3356070A1B2E227600A4546E /* UserActivity.h */,
+				3356070B1B2E227600A4546E /* UserActivity.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -339,9 +351,11 @@
 				335606FE1B2E1EF700A4546E /* ParseService.m in Sources */,
 				33E1B1061B28A01800B10155 /* UserActivityViewController.m in Sources */,
 				335606F51B2E067100A4546E /* ChartView.m in Sources */,
+				3356070C1B2E227600A4546E /* UserActivity.m in Sources */,
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
 				33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */,
+				335607091B2E220500A4546E /* ParseParser.m in Sources */,
 				33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */,
 				335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */,
 			);
