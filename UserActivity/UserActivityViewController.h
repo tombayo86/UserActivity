@@ -11,9 +11,10 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 
-@interface UserActivityViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface UserActivityViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 - (IBAction)logout:(id)sender;
 

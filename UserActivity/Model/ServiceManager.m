@@ -34,6 +34,7 @@
     self = [super init];
     if (self) {
         self.dataService = self.parseService;
+        self.parseService.delegate = self;
     }
     return self;
 }
@@ -58,11 +59,6 @@
 -(void)userDataDownloadDidFinish:(NSArray *)userData
 {
     [self.delegate userDataDownloadDidFinish:userData];
-}
-
--(void)userDataDownloadProgress:(NSNumber *)progress
-{
-    [self.delegate userDataDownloadProgress:progress];
 }
 
 -(void)serviceError:(NSError *)error

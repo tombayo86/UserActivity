@@ -11,7 +11,6 @@
 @protocol DataServiceDelegate <NSObject>
 
 -(void)userDataDownloadDidFinish: (NSArray *)userData;
--(void)userDataDownloadProgress: (NSNumber *)progress;
 -(void)serviceError:(NSError *)error;
 
 @end

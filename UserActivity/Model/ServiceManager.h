@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "ParseService.h"
+#import "DataService.h"
 
 @protocol ServiceManagerDelegate <NSObject>
 
 -(void)userDataDownloadDidFinish: (NSArray *)userData;
--(void)userDataDownloadProgress: (NSNumber *)progress;
 -(void)serviceError: (NSError *)error;
 
 @end

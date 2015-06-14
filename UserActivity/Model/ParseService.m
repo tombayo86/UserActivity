@@ -10,8 +10,6 @@
 
 @interface ParseService()
 
-
-
 @end
 
 @implementation ParseService
@@ -26,6 +24,7 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
+            
             [self.delegate userDataDownloadDidFinish:objects];
         } else {
             NSString *errorString = [[error userInfo] objectForKey:@"error"];

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChartView.h"
 
 @interface ChartViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet ChartView *chartView;
 
 @end

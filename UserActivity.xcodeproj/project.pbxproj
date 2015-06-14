@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		335606F51B2E067100A4546E /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606F41B2E067100A4546E /* ChartView.m */; };
+		335606FE1B2E1EF700A4546E /* ParseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FB1B2E1EF700A4546E /* ParseService.m */; };
+		335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FD1B2E1EF700A4546E /* ServiceManager.m */; };
 		338424151B2ADF00002C7E1F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 338424141B2ADF00002C7E1F /* ParseUI.framework */; };
 		33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */; };
 		33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931F1B2AEA660047C256 /* ActivityViewCell.m */; };
@@ -31,8 +34,6 @@
 		33E1B13D1B28A0EE00B10155 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B13C1B28A0EE00B10155 /* libsqlite3.dylib */; };
 		33E1B13F1B28A0F300B10155 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B13E1B28A0F300B10155 /* Accounts.framework */; };
 		33E1B1411B28A0F700B10155 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33E1B1401B28A0F700B10155 /* Social.framework */; };
-		33E1B1451B28BD2700B10155 /* ParseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1441B28BD2700B10155 /* ParseService.m */; };
-		33E1B1481B28BD3F00B10155 /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1471B28BD3F00B10155 /* ServiceManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		335606F31B2E067100A4546E /* ChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartView.h; path = View/ChartView.h; sourceTree = "<group>"; };
+		335606F41B2E067100A4546E /* ChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartView.m; path = View/ChartView.m; sourceTree = "<group>"; };
+		335606F91B2E1EF700A4546E /* DataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataService.h; path = Model/DataService.h; sourceTree = "<group>"; };
+		335606FA1B2E1EF700A4546E /* ParseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseService.h; path = Model/ParseService.h; sourceTree = "<group>"; };
+		335606FB1B2E1EF700A4546E /* ParseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseService.m; path = Model/ParseService.m; sourceTree = "<group>"; };
+		335606FC1B2E1EF700A4546E /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Model/ServiceManager.h; sourceTree = "<group>"; };
+		335606FD1B2E1EF700A4546E /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Model/ServiceManager.m; sourceTree = "<group>"; };
 		338424141B2ADF00002C7E1F /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		33A9931B1B2AEA3F0047C256 /* ChartViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartViewCell.h; path = View/ChartViewCell.h; sourceTree = "<group>"; };
 		33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartViewCell.m; path = View/ChartViewCell.m; sourceTree = "<group>"; };
@@ -78,11 +86,6 @@
 		33E1B13C1B28A0EE00B10155 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		33E1B13E1B28A0F300B10155 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		33E1B1401B28A0F700B10155 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		33E1B1431B28BD2700B10155 /* ParseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseService.h; path = Service/ParseService.h; sourceTree = "<group>"; };
-		33E1B1441B28BD2700B10155 /* ParseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseService.m; path = Service/ParseService.m; sourceTree = "<group>"; };
-		33E1B1461B28BD3F00B10155 /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Service/ServiceManager.h; sourceTree = "<group>"; };
-		33E1B1471B28BD3F00B10155 /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Service/ServiceManager.m; sourceTree = "<group>"; };
-		33E1B1491B28EE4A00B10155 /* DataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataService.h; path = Service/DataService.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +128,8 @@
 				33A9931C1B2AEA3F0047C256 /* ChartViewCell.m */,
 				33A9931E1B2AEA660047C256 /* ActivityViewCell.h */,
 				33A9931F1B2AEA660047C256 /* ActivityViewCell.m */,
+				335606F31B2E067100A4546E /* ChartView.h */,
+				335606F41B2E067100A4546E /* ChartView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -216,11 +221,11 @@
 		33E1B1421B28BCEA00B10155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				33E1B1431B28BD2700B10155 /* ParseService.h */,
-				33E1B1441B28BD2700B10155 /* ParseService.m */,
-				33E1B1461B28BD3F00B10155 /* ServiceManager.h */,
-				33E1B1471B28BD3F00B10155 /* ServiceManager.m */,
-				33E1B1491B28EE4A00B10155 /* DataService.h */,
+				335606F91B2E1EF700A4546E /* DataService.h */,
+				335606FA1B2E1EF700A4546E /* ParseService.h */,
+				335606FB1B2E1EF700A4546E /* ParseService.m */,
+				335606FC1B2E1EF700A4546E /* ServiceManager.h */,
+				335606FD1B2E1EF700A4546E /* ServiceManager.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -331,13 +336,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				335606FE1B2E1EF700A4546E /* ParseService.m in Sources */,
 				33E1B1061B28A01800B10155 /* UserActivityViewController.m in Sources */,
-				33E1B1451B28BD2700B10155 /* ParseService.m in Sources */,
-				33E1B1481B28BD3F00B10155 /* ServiceManager.m in Sources */,
+				335606F51B2E067100A4546E /* ChartView.m in Sources */,
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
 				33A9931D1B2AEA3F0047C256 /* ChartViewCell.m in Sources */,
 				33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */,
+				335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 @property (strong, nonatomic) ServiceManager *serviceManager;
 @property (strong, nonatomic) PFLogInViewController *logInViewController;
 @property (nonatomic, getter=isUserLoggedIn) BOOL userLoggedIn;
+@property (strong, nonatomic) NSArray *userActivities;
 
 @end
 
@@ -25,15 +26,18 @@
     
     [super viewDidLoad];
     
+    //Hide content until login succeed
     self.tableView.hidden = YES;
     self.toolBar.hidden = YES;
     
     self.logInViewController.delegate = self;
     self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton;
     
+    //Fill out the form
     self.logInViewController.logInView.usernameField.text = @"test";
     self.logInViewController.logInView.passwordField.text = @"asd";
     
+    self.serviceManager.delegate = self;
     
 }
 
@@ -82,21 +86,38 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        ChartViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chartCell"];
-        cell.textLabel.text = @"Activity Chart";
+        ChartViewCell *cell = (ChartViewCell *)[tableView dequeueReusableCellWithIdentifier:@"chartCell"];
         
-        //Configure chartView cell that contains chart
+        if(!cell) cell = [[ChartViewCell alloc] initWithFrame:CGRectZero];
+        
+        if(self.userActivities){
+            [cell.chartView loadView: self.userActivities];
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;
     } else {
-        ActivityViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"activityCell"];
+        ActivityViewCell *cell = (ActivityViewCell *)[tableView dequeueReusableCellWithIdentifier:@"activityCell"];
+        
+        if(!cell) cell = [[ActivityViewCell alloc] initWithFrame:CGRectZero];
+        
         cell.textLabel.text = @"Activity";
         
-        //Configure activity cell
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
         return cell;
     }
     
     return nil;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {
+        return 200;
+    }
+    return 60;
 }
 
 #pragma mark PFLogInViewController Delegate methods
@@ -131,7 +152,20 @@
 
 }
 
-#pragma mark Naviation
+#pragma mark Service Manager Delegate methods
+-(void)userDataDownloadDidFinish:(NSArray *)userData
+{
+    self.userActivities = userData;
+    
+    [self.tableView reloadData];
+}
+
+-(void)serviceError:(NSError *)error
+{
+    
+}
+
+#pragma mark Navigation
 
 - (IBAction)logout:(id)sender {
     [PFUser logOut];
