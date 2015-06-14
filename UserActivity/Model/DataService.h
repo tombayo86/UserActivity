@@ -10,7 +10,7 @@
 
 @protocol DataServiceDelegate <NSObject>
 
--(void)userDataDownloadDidFinish: (NSArray *)userData;
+-(void)userDataDownloadDidFinish: (NSArray *)data;
 -(void)serviceError:(NSError *)error;
 
 @end

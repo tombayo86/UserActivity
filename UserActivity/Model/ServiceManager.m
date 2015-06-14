@@ -75,9 +75,9 @@
 #pragma mark - DataService Delegate methods
 
 
--(void)userDataDownloadDidFinish:(NSArray *)userData
+-(void)userDataDownloadDidFinish:(NSArray *)data
 {
-    [self.delegate userDataDownloadDidFinish:[self.parser parse:userData]];
+    [self.delegate userDataDownloadDidFinish:[self.parser parse:data]];
 }
 
 -(void)serviceError:(NSError *)error

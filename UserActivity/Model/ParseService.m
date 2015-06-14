@@ -22,10 +22,10 @@
 //        [query whereKey:@"Name" equalTo:@"John"];
 //    }
     
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    [query findObjectsInBackgroundWithBlock:^(NSArray *data, NSError *error) {
         if (!error) {
             
-            [self.delegate userDataDownloadDidFinish:objects];
+            [self.delegate userDataDownloadDidFinish:data];
         } else {
             NSString *errorString = [[error userInfo] objectForKey:@"error"];
             NSLog(@"Error: %@", errorString);

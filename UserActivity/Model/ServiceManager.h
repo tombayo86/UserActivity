@@ -12,7 +12,7 @@
 
 @protocol ServiceManagerDelegate <NSObject>
 
--(void)userDataDownloadDidFinish: (NSArray *)userData;
+-(void)userDataDownloadDidFinish: (NSArray *)userActivities;
 -(void)serviceError: (NSError *)error;
 
 @end

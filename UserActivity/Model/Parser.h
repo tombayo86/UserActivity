@@ -10,6 +10,6 @@
 
 @protocol Parser <NSObject>
 
--(NSArray *)parse: (NSArray *)userData;
+-(NSArray *)parse: (NSArray *)data;
 
 @end
