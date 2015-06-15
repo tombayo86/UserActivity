@@ -10,6 +10,8 @@
 
 @interface ChartView : UIView
 
--(void)loadView: (NSArray *)userActivities;
+@property (strong, nonatomic) NSArray *chartData;
+
+-(void)loadView: (NSArray *)chartData;
 
 @end

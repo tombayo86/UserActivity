@@ -10,6 +10,7 @@
 #import "ServiceManager.h"
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
+#import "UserActivity.h"
 
 @interface UserActivityViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate>
 

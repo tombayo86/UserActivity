@@ -12,8 +12,9 @@
 
 @interface ServiceManager()
 
-@property (strong, nonatomic) ParseService *parseService;
 @property (weak, nonatomic) id<DataService> dataService;
+@property (strong, nonatomic) ParseService *parseService;
+
 
 @property (weak, nonatomic) id<Parser> parser;
 @property (strong, nonatomic) ParseParser *parseParser;

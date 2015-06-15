@@ -17,6 +17,7 @@
 @property (strong, nonatomic) PFLogInViewController *logInViewController;
 @property (nonatomic, getter=isUserLoggedIn) BOOL userLoggedIn;
 @property (strong, nonatomic) NSArray *userActivities;
+@property (strong, nonatomic) NSArray *currentChartData;
 
 @end
 
@@ -45,20 +46,14 @@
 {
     [super viewDidAppear:animated];
     
-    UserActivityViewController __weak *weakSelf = self;
-    
-     if(!self.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:^{
-         weakSelf.tableView.hidden = NO;
-         weakSelf.toolBar.hidden = NO;
-     }];
-    
-    
+     if(!self.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 #pragma mark Custom setters and getters
 
@@ -76,11 +71,20 @@
     return _logInViewController;
 }
 
+-(NSArray *)userActivities
+{
+    //Insert condition to return filtered array when range of dates is selected
+    /*if (<#condition#>) {
+        
+    }*/
+    
+    return _userActivities;
+}
 #pragma mark UITableViewDelegate methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1 + 5;
+    return 1 + [self.currentChartData count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -90,8 +94,9 @@
         
         if(!cell) cell = [[ChartViewCell alloc] initWithFrame:CGRectZero];
         
-        if(self.userActivities){
-            [cell.chartView loadView: self.userActivities];
+        if(self.currentChartData){
+            [cell.chartView loadView: self.currentChartData];
+            [cell.chartView setNeedsDisplay];
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -102,7 +107,8 @@
         
         if(!cell) cell = [[ActivityViewCell alloc] initWithFrame:CGRectZero];
         
-        cell.textLabel.text = @"Activity";
+        NSString *activityTitle = [self.currentChartData[indexPath.row - 1] valueForKey:@"type"];
+        cell.textLabel.text = activityTitle;
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -115,7 +121,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
-        return 200;
+        return 300;
     }
     return 60;
 }
@@ -157,12 +163,49 @@
 {
     self.userActivities = userData;
     
+    self.currentChartData = [self filterUserActivitiesWithStartDate: nil andEndDate: nil];
+    
     [self.tableView reloadData];
+    
+    [self.activityIndicator stopAnimating];
+    
+    self.tableView.hidden = NO;
+    self.toolBar.hidden = NO;
 }
 
 -(void)serviceError:(NSError *)error
 {
     
+}
+
+#pragma mark Private methods
+
+-(NSArray *)filterUserActivitiesWithStartDate: (NSDate *)startDate andEndDate:(NSDate *)endDate
+{
+    NSMutableArray *resultArray = [NSMutableArray new];
+    NSArray *types = [self.userActivities valueForKeyPath:@"@distinctUnionOfObjects.type"];
+    for (NSString *type in types)
+    {
+        NSMutableDictionary *entry = [NSMutableDictionary new];
+        [entry setObject:type forKey:@"type"];
+        
+        NSArray *typeDates = [self.userActivities filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = %@", type]];
+        
+        int timeInMinutes = 0;
+        for (int i = 0; i < typeDates.count; i++)
+        {
+            if([typeDates[i] isKindOfClass:[UserActivity class]]) {
+                UserActivity *userActivity = typeDates[i];
+                NSTimeInterval seconds = [userActivity.endsAt timeIntervalSinceDate:userActivity.startsAt];
+                timeInMinutes += (seconds/60);
+            }
+        }
+        
+        [entry setObject:[NSNumber numberWithInt:timeInMinutes] forKey:@"minutes"];
+        [resultArray addObject:entry];
+    }
+    
+    return resultArray;
 }
 
 #pragma mark Navigation
