@@ -14,7 +14,7 @@
 
 -(NSArray *)parse:(NSArray *)userData
 {
-    NSMutableArray *userActivites;
+    NSMutableArray *userActivites = [[NSMutableArray alloc] init];
     
     for(PFObject* obj in userData){
         UserActivity *userActivity = [[UserActivity alloc] init];

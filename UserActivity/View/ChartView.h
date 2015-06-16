@@ -10,8 +10,10 @@
 
 @interface ChartView : UIView
 
-@property (strong, nonatomic) NSArray *chartData;
++ (UIColor *)colorOfDataWithIndex: (NSUInteger)index;
 
--(void)loadView: (NSArray *)chartData;
+-(void)selectPartWithIndex: (NSUInteger)index;
+
+@property (strong, nonatomic) NSArray *chartData;
 
 @end

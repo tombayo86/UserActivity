@@ -6,30 +6,35 @@
 //  Copyright (c) 2015 bitelz. All rights reserved.
 //
 
-#import "UserActivityViewController.h"
-#import "ChartViewCell.h"
+#import "UAViewController.h"
 #import "ActivityViewCell.h"
+#import "UALoginViewController.h"
 
-
-@interface UserActivityViewController ()
+@interface UAViewController ()
 
 @property (strong, nonatomic) ServiceManager *serviceManager;
-@property (strong, nonatomic) PFLogInViewController *logInViewController;
+@property (strong, nonatomic) UALoginViewController *logInViewController;
 @property (nonatomic, getter=isUserLoggedIn) BOOL userLoggedIn;
 @property (strong, nonatomic) NSArray *userActivities;
 @property (strong, nonatomic) NSArray *currentChartData;
 
 @end
 
-@implementation UserActivityViewController
+@implementation UAViewController
+{
+    int chartYPosition;
+}
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     
     [super viewDidLoad];
     
     //Hide content until login succeed
     self.tableView.hidden = YES;
     self.toolBar.hidden = YES;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     self.logInViewController.delegate = self;
     self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton;
@@ -38,10 +43,26 @@
     self.logInViewController.logInView.usernameField.text = @"test";
     self.logInViewController.logInView.passwordField.text = @"asd";
     
+    //set serviceManager delegate
     self.serviceManager.delegate = self;
+    
+    //Add background image
+    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    [self.view addSubview:bgImageView ];
+    [self.view sendSubviewToBack:bgImageView ];
     
 }
 
+//Hiding chart
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.chartView.alpha = 0.0;
+    self.toolBar.alpha = 0.0;
+    self.tableView.hidden = YES;
+    self.toolBar.hidden = YES;
+}
+
+//Showing loginViewController if the user is not logged in
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -54,7 +75,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 #pragma mark Custom setters and getters
 
 -(ServiceManager *)serviceManager
@@ -64,9 +84,9 @@
     return _serviceManager;
 }
 
--(PFLogInViewController *)logInViewController
+-(UALoginViewController *)logInViewController
 {
-    if(!_logInViewController) _logInViewController = [[PFLogInViewController alloc] init];
+    if(!_logInViewController) _logInViewController = [[UALoginViewController alloc] init];
     
     return _logInViewController;
 }
@@ -80,55 +100,47 @@
     
     return _userActivities;
 }
+
+
 #pragma mark UITableViewDelegate methods
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1 + [self.currentChartData count];
+    return [self.currentChartData count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        ChartViewCell *cell = (ChartViewCell *)[tableView dequeueReusableCellWithIdentifier:@"chartCell"];
-        
-        if(!cell) cell = [[ChartViewCell alloc] initWithFrame:CGRectZero];
-        
-        if(self.currentChartData){
-            [cell.chartView loadView: self.currentChartData];
-            [cell.chartView setNeedsDisplay];
-        }
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        return cell;
-    } else {
-        ActivityViewCell *cell = (ActivityViewCell *)[tableView dequeueReusableCellWithIdentifier:@"activityCell"];
-        
-        if(!cell) cell = [[ActivityViewCell alloc] initWithFrame:CGRectZero];
-        
-        NSString *activityTitle = [self.currentChartData[indexPath.row - 1] valueForKey:@"type"];
-        cell.textLabel.text = activityTitle;
-        
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        return cell;
-    }
+    ActivityViewCell *cell = (ActivityViewCell *)[tableView dequeueReusableCellWithIdentifier:@"activityCell"];
     
-    return nil;
+    //Setting up the cell (title, background ,selectiontype, alpha)
+    NSString *activityTitle = [self.currentChartData[indexPath.row] valueForKey:@"type"];
+    cell.textLabel.text = activityTitle;
+    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.alpha = 0.0;
+    UIColor *bgColor = [ChartView colorOfDataWithIndex:indexPath.row];
+    cell.backgroundColor = bgColor;
+    
+    return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        return 300;
-    }
     return 60;
+}
+
+//Selecting slice on chart
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.chartView selectPartWithIndex:indexPath.row];
 }
 
 #pragma mark PFLogInViewController Delegate methods
 
-- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password {
+- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password
+{
   
     if (username && password && username.length != 0 && password.length != 0) {
         return YES;
@@ -142,14 +154,22 @@
     return NO;
 }
 
-- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user {
+- (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
+{
     self.userLoggedIn = YES;
-    [self dismissViewControllerAnimated:YES completion:nil];
     
-    [self.serviceManager getUserData];
+    UAViewController __weak *weakSelf = self;
+    
+    [self.logInViewController hideWithAnimationAndCompletion:^{
+        
+        [weakSelf dismissViewControllerAnimated:NO completion:nil];
+        
+        [weakSelf.serviceManager getUserData];
+    }];
 }
 
-- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error {
+- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
+{
     [[[UIAlertView alloc] initWithTitle:@"Log in failed"
                                 message:@""
                                delegate:nil
@@ -159,20 +179,30 @@
 }
 
 #pragma mark Service Manager Delegate methods
+
+
+
 -(void)userDataDownloadDidFinish:(NSArray *)userData
 {
     self.userActivities = userData;
     
+    //Filtering recieved data according to selected dates
     self.currentChartData = [self filterUserActivitiesWithStartDate: nil andEndDate: nil];
     
+    //Sending data to chart and rebuilding it
+    self.chartView.chartData = self.currentChartData;
+    [self.chartView setNeedsDisplay];
+    
+    //Reloading the tableview
     [self.tableView reloadData];
     
     [self.activityIndicator stopAnimating];
     
-    self.tableView.hidden = NO;
-    self.toolBar.hidden = NO;
+    //Showing thie content
+    [self showWithAnimation];
 }
 
+//Handling service errors
 -(void)serviceError:(NSError *)error
 {
     
@@ -180,6 +210,8 @@
 
 #pragma mark Private methods
 
+//Filtering user activities by start date and end date
+//Converting data to objects recognizable by chart (array of objects with attributes: type and minutes)
 -(NSArray *)filterUserActivitiesWithStartDate: (NSDate *)startDate andEndDate:(NSDate *)endDate
 {
     NSMutableArray *resultArray = [NSMutableArray new];
@@ -208,11 +240,42 @@
     return resultArray;
 }
 
+//Animations performed when the data is known and filtered
+-(void)showWithAnimation
+{
+    self.tableView.hidden = NO;
+    self.toolBar.hidden = NO;
+    
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.toolBar.alpha = 1.0;
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.7 delay:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
+        self.chartView.alpha = 1.0;
+    } completion:nil];
+    
+    
+    for (int row = 0; row < [self.tableView numberOfRowsInSection:0]; row++) {
+        NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:0];
+        ActivityViewCell* cell = (ActivityViewCell *)[self.tableView cellForRowAtIndexPath:cellPath];
+        cell.alpha = 0;
+        [UIView animateWithDuration:0.2 delay:1 + (0.2*row) options:UIViewAnimationOptionCurveEaseIn animations:^{
+            cell.alpha = 1;
+        } completion:nil];
+    }
+}
+
 #pragma mark Navigation
 
-- (IBAction)logout:(id)sender {
+//Action after logout button tapped
+- (IBAction)logout:(id)sender
+{
     [PFUser logOut];
     
     [self presentViewController:self.logInViewController animated:NO completion:nil];
+}
+
+//Showing action sheet to select start and end dates
+- (IBAction)selectDates:(id)sender {
 }
 @end

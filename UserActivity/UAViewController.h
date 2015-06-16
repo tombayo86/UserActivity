@@ -11,13 +11,16 @@
 #import <Parse/Parse.h>
 #import <ParseUI/ParseUI.h>
 #import "UserActivity.h"
+#import "ChartView.h"
 
-@interface UserActivityViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate>
+@interface UAViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate>
 
 @property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet ChartView *chartView;
 - (IBAction)logout:(id)sender;
+- (IBAction)selectDates:(id)sender;
 
 @end
 

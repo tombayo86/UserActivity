@@ -13,44 +13,50 @@
 
 @interface ChartView()
 
-@property (strong, nonatomic) NSArray *data;
+@property (strong, nonatomic) NSArray *colors;
 
 @end
 
 @implementation ChartView
 
--(void)loadView: (NSArray *)chartData
+//Static method to recieve coherent colors allover application according to data
++ (UIColor *)colorOfDataWithIndex: (NSUInteger)index
 {
-    self.data = chartData;
+    static NSArray *colors = nil;
+    if(!colors)
+        colors = @[[UIColor colorWithRed:207.0/255.0 green:240.0/255.0 blue:158.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:168.0/255.0 green:219.0/255.0 blue:168.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:121.0/255.0 green:189.0/255.0 blue:154.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:59.0/255.0 green:134.0/255.0 blue:134.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:11.0/255.0 green:72.0/255.0 blue:107.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:70.0/255.0 green:95.0/255.0 blue:93.0/255.0 alpha:1.0],
+                               [UIColor colorWithRed:63.0/255.0 green:81.0/255.0 blue:81.0/255.0 alpha:1.0]];
     
-    [self setNeedsDisplay];
+    return colors[index];
 }
 
--(instancetype)initWithFrame:(CGRect)frame
-{
-    CGRect frameRect = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 300);
-    self = [super initWithFrame:frameRect];
-    
-    return self;
-}
-
+//Drawing dougnat chart using Core Graphics
 -(void)drawRect:(CGRect)rect
 {
-    if(self.data) {
+    if(self.chartData) {
+        
+        //Gather total time of activities
         int totalTime;
-        for (NSObject *obj in self.data)
+        for (NSObject *obj in self.chartData)
         {
             int minutes = [[obj valueForKey:@"minutes"] intValue];
             totalTime += minutes;
         }
         
+        //Calculate the angle for one minute of activity
         float oneMinuteAngle = 360.0f / totalTime;
         
         float startAngle = 0.0;
         float endAngle;
         int minutes;
         
-        for (NSObject *obj in self.data)
+        //Drawing arcs with stroke around the center of view
+        for (NSObject *obj in self.chartData)
         {
                 minutes += [[obj valueForKey:@"minutes"] intValue];
                 
@@ -70,21 +76,38 @@
                 
                 CAShapeLayer *segment = [CAShapeLayer layer];
                 
-                CGFloat redLevel    = rand() / (float) RAND_MAX;
-                CGFloat greenLevel  = rand() / (float) RAND_MAX;
-                CGFloat blueLevel   = rand() / (float) RAND_MAX;
-                
-                segment.fillColor = [UIColor colorWithRed:redLevel green:greenLevel blue:blueLevel alpha:1].CGColor;
+                segment.fillColor = [ChartView colorOfDataWithIndex:[self.chartData indexOfObject:obj]].CGColor;
             
-                segment.strokeColor = [UIColor blackColor].CGColor;
-                segment.lineWidth = 1.0;
+                segment.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
+                segment.lineWidth = 2.0;
                 segment.path = strokedArc;
             
                 [self.layer addSublayer:segment];
             
                 
                 startAngle = -endAngle;
-            
+        }
+    }
+}
+
+//Animating chart when the cell in table view is selected
+-(void)selectPartWithIndex: (NSUInteger)index
+{
+    //Clearing animations of layers
+    for (CAShapeLayer *layer in self.layer.sublayers) {
+        [layer removeAllAnimations];
+    }
+    
+    //Adding new animations of fade out
+    for (CAShapeLayer *layer in self.layer.sublayers) {
+        if([self.layer.sublayers indexOfObject:layer] != index) {
+            CABasicAnimation *fadeOutAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+            fadeOutAnimation.duration = 0.2;
+            fadeOutAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+            fadeOutAnimation.toValue = [NSNumber numberWithFloat:0.2];
+            fadeOutAnimation.fillMode = kCAFillModeBoth;
+            fadeOutAnimation.removedOnCompletion = NO;
+            [layer addAnimation:fadeOutAnimation forKey:@"opacityOUT"];
         }
     }
 }
