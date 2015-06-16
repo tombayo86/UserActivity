@@ -15,6 +15,7 @@
 		338424151B2ADF00002C7E1F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 338424141B2ADF00002C7E1F /* ParseUI.framework */; };
 		33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931F1B2AEA660047C256 /* ActivityViewCell.m */; };
 		33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD671B30077C00968E85 /* UALoginViewController.m */; };
+		33D5BD6B1B306F2300968E85 /* SelectDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD6A1B306F2300968E85 /* SelectDateView.m */; };
 		33E1B1001B28A01800B10155 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B0FF1B28A01800B10155 /* main.m */; };
 		33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1021B28A01800B10155 /* AppDelegate.m */; };
 		33E1B1061B28A01800B10155 /* UAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UAViewController.m */; };
@@ -66,6 +67,8 @@
 		33A9931F1B2AEA660047C256 /* ActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityViewCell.m; path = View/ActivityViewCell.m; sourceTree = "<group>"; };
 		33D5BD661B30077C00968E85 /* UALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UALoginViewController.h; path = View/UALoginViewController.h; sourceTree = "<group>"; };
 		33D5BD671B30077C00968E85 /* UALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UALoginViewController.m; path = View/UALoginViewController.m; sourceTree = "<group>"; };
+		33D5BD691B306F2300968E85 /* SelectDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDateView.h; path = View/SelectDateView.h; sourceTree = "<group>"; };
+		33D5BD6A1B306F2300968E85 /* SelectDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectDateView.m; path = View/SelectDateView.m; sourceTree = "<group>"; };
 		33E1B0FA1B28A01800B10155 /* UserActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E1B0FE1B28A01800B10155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33E1B0FF1B28A01800B10155 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				33A9931F1B2AEA660047C256 /* ActivityViewCell.m */,
 				335606F31B2E067100A4546E /* ChartView.h */,
 				335606F41B2E067100A4546E /* ChartView.m */,
+				33D5BD691B306F2300968E85 /* SelectDateView.h */,
+				33D5BD6A1B306F2300968E85 /* SelectDateView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -356,6 +361,7 @@
 				33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
 				335607091B2E220500A4546E /* ParseParser.m in Sources */,
+				33D5BD6B1B306F2300968E85 /* SelectDateView.m in Sources */,
 				33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */,
 				335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */,
 			);

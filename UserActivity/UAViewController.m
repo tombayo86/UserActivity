@@ -27,14 +27,11 @@
 
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
-    
-    //Hide content until login succeed
-    self.tableView.hidden = YES;
-    self.toolBar.hidden = YES;
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.selectDatesView.hidden = YES;
     
     self.logInViewController.delegate = self;
     self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton;
@@ -56,10 +53,9 @@
 //Hiding chart
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.chartView.alpha = 0.0;
-    self.toolBar.alpha = 0.0;
     self.tableView.hidden = YES;
     self.toolBar.hidden = YES;
+    self.chartView.hidden = YES;
 }
 
 //Showing loginViewController if the user is not logged in
@@ -189,17 +185,8 @@
     //Filtering recieved data according to selected dates
     self.currentChartData = [self filterUserActivitiesWithStartDate: nil andEndDate: nil];
     
-    //Sending data to chart and rebuilding it
-    self.chartView.chartData = self.currentChartData;
-    [self.chartView setNeedsDisplay];
+    [self prepareChartReloadTableViewAndShow];
     
-    //Reloading the tableview
-    [self.tableView reloadData];
-    
-    [self.activityIndicator stopAnimating];
-    
-    //Showing thie content
-    [self showWithAnimation];
 }
 
 //Handling service errors
@@ -210,18 +197,40 @@
 
 #pragma mark Private methods
 
+-(void)prepareChartReloadTableViewAndShow
+{
+    //Sending data to chart and rebuilding it
+    self.chartView.chartData = self.currentChartData;
+    [self.chartView setNeedsDisplay];
+    
+    //Reloading the tableview
+    [self.tableView reloadData];
+    
+    [self.activityIndicator stopAnimating];
+    
+    //Showing thie content
+    [self showAndAnimate];
+}
+
 //Filtering user activities by start date and end date
 //Converting data to objects recognizable by chart (array of objects with attributes: type and minutes)
 -(NSArray *)filterUserActivitiesWithStartDate: (NSDate *)startDate andEndDate:(NSDate *)endDate
 {
     NSMutableArray *resultArray = [NSMutableArray new];
-    NSArray *types = [self.userActivities valueForKeyPath:@"@distinctUnionOfObjects.type"];
+    NSArray *results = self.userActivities;
+    
+    if(startDate && endDate) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(startsAt >= %@ ) AND (endsAt <= %@)", startDate, endDate];
+        results = [self.userActivities filteredArrayUsingPredicate:predicate];
+    }
+    
+    NSArray *types = [results valueForKeyPath:@"@distinctUnionOfObjects.type"];
     for (NSString *type in types)
     {
         NSMutableDictionary *entry = [NSMutableDictionary new];
         [entry setObject:type forKey:@"type"];
         
-        NSArray *typeDates = [self.userActivities filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = %@", type]];
+        NSArray *typeDates = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = %@", type]];
         
         int timeInMinutes = 0;
         for (int i = 0; i < typeDates.count; i++)
@@ -241,16 +250,26 @@
 }
 
 //Animations performed when the data is known and filtered
--(void)showWithAnimation
+-(void)showAndAnimate
 {
+    self.chartView.alpha = 0.0;
+    self.toolBar.alpha = 0.0;
+    
     self.tableView.hidden = NO;
     self.toolBar.hidden = NO;
+    self.chartView.hidden = NO;
     
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.2
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
         self.toolBar.alpha = 1.0;
     } completion:nil];
     
-    [UIView animateWithDuration:0.7 delay:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.7
+                          delay:0.3
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
         self.chartView.alpha = 1.0;
     } completion:nil];
     
@@ -259,7 +278,10 @@
         NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:0];
         ActivityViewCell* cell = (ActivityViewCell *)[self.tableView cellForRowAtIndexPath:cellPath];
         cell.alpha = 0;
-        [UIView animateWithDuration:0.2 delay:1 + (0.2*row) options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [UIView animateWithDuration:0.2
+                              delay:1 + (0.2*row)
+                            options:UIViewAnimationOptionCurveEaseIn
+                         animations:^{
             cell.alpha = 1;
         } completion:nil];
     }
@@ -275,7 +297,53 @@
     [self presentViewController:self.logInViewController animated:NO completion:nil];
 }
 
+#pragma mark Select Dates View methods
+
 //Showing action sheet to select start and end dates
 - (IBAction)selectDates:(id)sender {
+    
+    self.chartView.hidden = YES;
+    self.tableView.hidden = YES;
+    self.toolBar.hidden = YES;
+    self.selectDatesView.hidden = NO;
+    
 }
+
+-(IBAction)didSelectDates:(id)sender
+{
+    self.currentChartData = [self filterUserActivitiesWithStartDate:[self.selectDatesView startDate]
+                                                         andEndDate:[self.selectDatesView endDate]];
+    
+    //Check if current data has results in given period of time.
+    //If yes - show chart and tableview
+    //If not - show alert message
+    if ([self.currentChartData count] > 0) {
+        
+        self.selectDatesView.hidden = YES;
+        
+        [self.activityIndicator startAnimating];
+        
+        [self prepareChartReloadTableViewAndShow];
+        
+    } else {
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"We have a problem" message:@"No activities found in that period of time" preferredStyle:UIAlertControllerStyleAlert];
+
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:okAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+    }
+}
+
+-(IBAction)didCancelSelectDates:(id)sender
+{
+    self.selectDatesView.hidden = YES;
+    self.chartView.hidden = NO;
+    self.tableView.hidden = NO;
+    self.toolBar.hidden = NO;
+}
+
+
 @end
