@@ -12,7 +12,7 @@
 
 @protocol ServiceManagerDelegate <NSObject>
 
--(void)userDataDownloadDidFinish: (NSArray *)userActivities;
+-(void)userActivitiesDownloadDidFinish: (NSArray *)userActivities;
 -(void)serviceError: (NSError *)error;
 
 @end
@@ -21,6 +21,6 @@
 
 @property (weak, nonatomic) id<ServiceManagerDelegate> delegate;
 
--(void)getUserData;
+-(void)getData;
 
 @end

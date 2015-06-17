@@ -52,9 +52,9 @@
     self.parser = self.parseParser;
 }
 
--(void)getUserData
+-(void)getData
 {
-    [self.dataService getUserData];
+    [self.dataService getUserActivites];
 }
 
 #pragma mark - Custom getters and setters
@@ -75,10 +75,9 @@
 
 #pragma mark - DataService Delegate methods
 
-
--(void)userDataDownloadDidFinish:(NSArray *)data
+-(void)userActivitiesDownloadDidFinish:(NSArray *)data
 {
-    [self.delegate userDataDownloadDidFinish:[self.parser parse:data]];
+    [self.delegate userActivitiesDownloadDidFinish:[self.parser parse:data]];
 }
 
 -(void)serviceError:(NSError *)error

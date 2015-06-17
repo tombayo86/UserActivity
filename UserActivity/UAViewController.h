@@ -16,12 +16,13 @@
 
 @interface UAViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate>
 
-@property (strong, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) IBOutlet ChartView *chartView;
-@property (strong, nonatomic) IBOutlet SelectDateView *selectDatesView;
-
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet ChartView *chartView;
+@property (weak, nonatomic) IBOutlet SelectDateView *selectDatesView;
+@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
 - (IBAction)logout:(id)sender;
 - (IBAction)selectDates:(id)sender;

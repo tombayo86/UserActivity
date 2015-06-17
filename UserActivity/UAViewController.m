@@ -45,17 +45,19 @@
     
     //Add background image
     UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    [self.view addSubview:bgImageView ];
-    [self.view sendSubviewToBack:bgImageView ];
+    [self.view addSubview:bgImageView];
+    [self.view sendSubviewToBack:bgImageView];
     
 }
 
 //Hiding chart
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.tableView.hidden = YES;
-    self.toolBar.hidden = YES;
-    self.chartView.hidden = YES;
+    [super viewWillAppear:animated];
+    
+    [self resetProgressBar];
+    
+    [self dataContentHidden:YES];
 }
 
 //Showing loginViewController if the user is not logged in
@@ -64,6 +66,11 @@
     [super viewDidAppear:animated];
     
      if(!self.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:nil];
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    self.userImageView.image = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,17 +93,6 @@
     
     return _logInViewController;
 }
-
--(NSArray *)userActivities
-{
-    //Insert condition to return filtered array when range of dates is selected
-    /*if (<#condition#>) {
-        
-    }*/
-    
-    return _userActivities;
-}
-
 
 #pragma mark UITableViewDelegate methods
 
@@ -160,45 +156,87 @@
         
         [weakSelf dismissViewControllerAnimated:NO completion:nil];
         
-        [weakSelf.serviceManager getUserData];
+        [weakSelf.activityIndicator startAnimating];
+    
+        [weakSelf.serviceManager getData];
     }];
-}
-
-- (void)logInViewController:(PFLogInViewController *)logInController didFailToLogInWithError:(NSError *)error
-{
-    [[[UIAlertView alloc] initWithTitle:@"Log in failed"
-                                message:@""
-                               delegate:nil
-                      cancelButtonTitle:@"ok"
-                      otherButtonTitles:nil] show];
-
 }
 
 #pragma mark Service Manager Delegate methods
 
-
-
--(void)userDataDownloadDidFinish:(NSArray *)userData
+-(void)userActivitiesDownloadDidFinish:(NSArray *)userData
 {
     self.userActivities = userData;
     
     //Filtering recieved data according to selected dates
     self.currentChartData = [self filterUserActivitiesWithStartDate: nil andEndDate: nil];
     
-    [self prepareChartReloadTableViewAndShow];
+    PFUser *user = [PFUser currentUser];
+    
+    PFFile *pictureFile = [user objectForKey:@"userImage"];
+    
+    UAViewController __weak *weakSelf = self;
+    
+    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        if (!error){
+            
+            //set user profile picture
+            self.userImageView.image = [UIImage imageWithData:data];
+            
+             //update progress view
+            [weakSelf.progressBar setProgress:1.0f animated:YES];
+           
+            [UIView animateWithDuration:0.5 delay:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                weakSelf.progressBar.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                weakSelf.progressBar.hidden = YES;
+                [weakSelf prepareChartReloadTableViewAndShowAnimation];
+            }];
+        }
+        else {
+            [self serviceError:error];
+        }
+    }];
     
 }
 
-//Handling service errors
+//Handling service errors - presenting alert with info about error
 -(void)serviceError:(NSError *)error
 {
+    NSString *errorString = [[error userInfo] objectForKey:@"error"];
     
+    UIAlertController *alertController =
+    [UIAlertController alertControllerWithTitle:@"We have a problem"
+                                        message:errorString
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark Private methods
 
--(void)prepareChartReloadTableViewAndShow
+-(void)resetProgressBar
 {
+    self.progressBar.hidden = NO;
+    self.progressBar.alpha = 1.0;
+    [self.progressBar setProgress:0.0f];
+}
+
+-(void)dataContentHidden: (BOOL) hidden
+{
+    self.tableView.hidden = hidden;
+    self.toolBar.hidden = hidden;
+    self.chartView.hidden = hidden;
+    self.userImageView.hidden = hidden;
+}
+
+-(void)prepareChartReloadTableViewAndShowAnimation
+{
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
+    
     //Sending data to chart and rebuilding it
     self.chartView.chartData = self.currentChartData;
     [self.chartView setNeedsDisplay];
@@ -252,28 +290,43 @@
 //Animations performed when the data is known and filtered
 -(void)showAndAnimate
 {
+    //Set alpha to 0 and make visible
     self.chartView.alpha = 0.0;
     self.toolBar.alpha = 0.0;
+    self.userImageView.alpha = 0.0;
     
-    self.tableView.hidden = NO;
-    self.toolBar.hidden = NO;
-    self.chartView.hidden = NO;
+    [self dataContentHidden:NO];
     
+    
+    //animate user image
+    [UIView animateWithDuration:0.2
+                          delay:0.5
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.userImageView.alpha = 1.0;
+                     }
+                     completion:nil];
+
+    
+    //animate toolbar
     [UIView animateWithDuration:0.2
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
         self.toolBar.alpha = 1.0;
-    } completion:nil];
+    }
+                     completion:nil];
     
+    //animate chartview
     [UIView animateWithDuration:0.7
                           delay:0.3
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
         self.chartView.alpha = 1.0;
-    } completion:nil];
+    }
+                     completion:nil];
     
-    
+    //animate cells
     for (int row = 0; row < [self.tableView numberOfRowsInSection:0]; row++) {
         NSIndexPath* cellPath = [NSIndexPath indexPathForRow:row inSection:0];
         ActivityViewCell* cell = (ActivityViewCell *)[self.tableView cellForRowAtIndexPath:cellPath];
@@ -283,7 +336,8 @@
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
             cell.alpha = 1;
-        } completion:nil];
+        }
+                         completion:nil];
     }
 }
 
@@ -302,11 +356,9 @@
 //Showing action sheet to select start and end dates
 - (IBAction)selectDates:(id)sender {
     
-    self.chartView.hidden = YES;
-    self.tableView.hidden = YES;
-    self.toolBar.hidden = YES;
-    self.selectDatesView.hidden = NO;
+    [self dataContentHidden:YES];
     
+    self.selectDatesView.hidden = NO;
 }
 
 -(IBAction)didSelectDates:(id)sender
@@ -323,11 +375,14 @@
         
         [self.activityIndicator startAnimating];
         
-        [self prepareChartReloadTableViewAndShow];
+        [self prepareChartReloadTableViewAndShowAnimation];
         
     } else {
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"We have a problem" message:@"No activities found in that period of time" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alertController =
+        [UIAlertController alertControllerWithTitle:@"We have a problem"
+                                            message:@"No activities found in that period of time"
+                                     preferredStyle:UIAlertControllerStyleAlert];
 
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
         [alertController addAction:okAction];
@@ -340,9 +395,8 @@
 -(IBAction)didCancelSelectDates:(id)sender
 {
     self.selectDatesView.hidden = YES;
-    self.chartView.hidden = NO;
-    self.tableView.hidden = NO;
-    self.toolBar.hidden = NO;
+    
+    [self dataContentHidden:NO];
 }
 
 

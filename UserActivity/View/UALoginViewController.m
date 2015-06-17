@@ -61,22 +61,30 @@
 {
     
     [UIView animateWithDuration:0.1 delay: 0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.logInView.logInButton setFrame:CGRectMake(self.logInView.logInButton.frame.origin.x, self.logInView.logInButton.frame.origin.y + 100, self.logInView.logInButton.frame.size.width, self.logInView.logInButton.frame.size.height)];
+        [self.logInView.logInButton setFrame:CGRectMake(self.logInView.logInButton.frame.origin.x,
+                                                        self.logInView.logInButton.frame.origin.y + 100,
+                                                        self.logInView.logInButton.frame.size.width,
+                                                        self.logInView.logInButton.frame.size.height)];
         [self.logInView.logInButton setAlpha:0.0];
     } completion:nil];
     
     [UIView animateWithDuration:0.1 delay: 0.2 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.logInView.passwordField setFrame:CGRectMake(self.logInView.passwordField.frame.origin.x, self.logInView.passwordField.frame.origin.y + 100, self.logInView.passwordField.frame.size.width, self.logInView.passwordField.frame.size.height)];
+        [self.logInView.passwordField setFrame:CGRectMake(self.logInView.passwordField.frame.origin.x,
+                                                          self.logInView.passwordField.frame.origin.y + 100,
+                                                          self.logInView.passwordField.frame.size.width,
+                                                          self.logInView.passwordField.frame.size.height)];
         [self.logInView.passwordField setAlpha:0.0];
     } completion:nil];
     
     [UIView animateWithDuration:0.1 delay: 0.4 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        [self.logInView.usernameField setFrame:CGRectMake(self.logInView.usernameField.frame.origin.x, self.logInView.usernameField.frame.origin.y + 100, self.logInView.usernameField.frame.size.width, self.logInView.usernameField.frame.size.height)];
+        [self.logInView.usernameField setFrame:CGRectMake(self.logInView.usernameField.frame.origin.x,
+                                                          self.logInView.usernameField.frame.origin.y + 100,
+                                                          self.logInView.usernameField.frame.size.width,
+                                                          self.logInView.usernameField.frame.size.height)];
         [self.logInView.usernameField setAlpha:0.0];
     } completion:^(BOOL finished) {
         completionBlock();
     }];
-    
     
 }
 

@@ -10,7 +10,7 @@
 
 @protocol DataServiceDelegate <NSObject>
 
--(void)userDataDownloadDidFinish: (NSArray *)data;
+-(void)userActivitiesDownloadDidFinish: (NSArray *)data;
 -(void)serviceError:(NSError *)error;
 
 @end
@@ -19,8 +19,7 @@
 
 @property (weak, nonatomic) id<DataServiceDelegate> delegate;
 
--(void)getUserData;
--(void)getUserDataWithRange:(NSDate *)startDate toDate:(NSDate *)endDate;
+-(void)getUserActivites;
 
 @end
 

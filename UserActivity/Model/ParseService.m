@@ -14,29 +14,17 @@
 
 @implementation ParseService
 
--(void) getUserDataWithRange:(NSDate *)startDate toDate:(NSDate *)endDate
+-(void) getUserActivites
 {
     PFQuery *query = [PFQuery queryWithClassName:@"UserActivity"];
-    //Selecting data from selected date
-//    if(startDate && endDate) {
-//        [query whereKey:@"Name" equalTo:@"John"];
-//    }
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *data, NSError *error) {
         if (!error) {
-            
-            [self.delegate userDataDownloadDidFinish:data];
+            [self.delegate userActivitiesDownloadDidFinish:data];
         } else {
-            NSString *errorString = [[error userInfo] objectForKey:@"error"];
-            NSLog(@"Error: %@", errorString);
             [self.delegate serviceError:error];
         }
     }];
-}
-
--(void)getUserData
-{
-    [self getUserDataWithRange:nil toDate:nil];
 }
 
 @end
