@@ -12,7 +12,7 @@
 
 @implementation ParseParser
 
--(NSArray *)parse:(NSArray *)userData
+-(NSArray *)parseUserActivities:(NSArray *)userData
 {
     NSMutableArray *userActivites = [[NSMutableArray alloc] init];
     

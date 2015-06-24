@@ -18,7 +18,6 @@
     
     //create logo image
     self.logInView.logo.alpha = 0.0;
-
    
     // Set field text color
     [self.logInView.usernameField setTextColor:[UIColor colorWithWhite:1.0 alpha:1.0]];

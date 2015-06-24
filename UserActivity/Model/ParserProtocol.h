@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol Parser <NSObject>
+@protocol ParserProtocol <NSObject>
 
--(NSArray *)parse: (NSArray *)data;
+-(NSArray *)parseUserActivities: (NSArray *)data;
 
 @end

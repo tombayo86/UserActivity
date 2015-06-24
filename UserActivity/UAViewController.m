@@ -9,21 +9,34 @@
 #import "UAViewController.h"
 #import "ActivityViewCell.h"
 #import "UALoginViewController.h"
+#import "UAModel.h"
+#import "UASelectDateViewController.h"
+#import "UserActivity.h"
+#import "ChartView.h"
+#import "UserDataServiceManager.h"
 
 @interface UAViewController ()
 
-@property (strong, nonatomic) ServiceManager *serviceManager;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet ChartView *chartView;
+@property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+
+//service and model
+@property (strong, nonatomic) UserDataServiceManager *serviceManager;
+@property (strong, nonatomic) UAModel *userActivityModel;
+
+//additional viewcontrollers
 @property (strong, nonatomic) UALoginViewController *logInViewController;
-@property (nonatomic, getter=isUserLoggedIn) BOOL userLoggedIn;
-@property (strong, nonatomic) NSArray *userActivities;
-@property (strong, nonatomic) NSArray *currentChartData;
+
+@property (strong, nonatomic) NSArray *typesOfUserActivities;
+@property (strong, nonatomic) NSArray *durationsOfUserActivities;
 
 @end
 
 @implementation UAViewController
-{
-    int chartYPosition;
-}
 
 - (void)viewDidLoad
 {
@@ -31,7 +44,6 @@
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.selectDatesView.hidden = YES;
     
     self.logInViewController.delegate = self;
     self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton;
@@ -43,11 +55,19 @@
     //set serviceManager delegate
     self.serviceManager.delegate = self;
     
-    //Add background image
-    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    [self.view addSubview:bgImageView];
-    [self.view sendSubviewToBack:bgImageView];
+    //creating model instance
+    self.userActivityModel = [UAModel sharedModel];
+        [self addBackgroundImage];
     
+    [self dataContentHidden:YES];
+    
+    self.chartView.colors = @[[UIColor colorWithRed:207.0/255.0 green:240.0/255.0 blue:158.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:168.0/255.0 green:219.0/255.0 blue:168.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:121.0/255.0 green:189.0/255.0 blue:154.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:59.0/255.0 green:134.0/255.0 blue:134.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:11.0/255.0 green:72.0/255.0 blue:107.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:70.0/255.0 green:95.0/255.0 blue:93.0/255.0 alpha:1.0],
+                              [UIColor colorWithRed:63.0/255.0 green:81.0/255.0 blue:81.0/255.0 alpha:1.0]];
 }
 
 //Hiding chart
@@ -57,7 +77,14 @@
     
     [self resetProgressBar];
     
-    [self dataContentHidden:YES];
+    [self.userActivityModel addObserver:self
+                             forKeyPath:@"userActivities"
+                                options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                                context:nil];
+    [self.userActivityModel addObserver:self
+                             forKeyPath:@"userProfilePicture"
+                                options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+                                context:nil];
 }
 
 //Showing loginViewController if the user is not logged in
@@ -65,24 +92,30 @@
 {
     [super viewDidAppear:animated];
     
-     if(!self.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:nil];
+     if(!self.serviceManager.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:nil];
+
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.userActivityModel removeObserver:self forKeyPath:@"userActivities"];
+    [self.userActivityModel removeObserver:self forKeyPath:@"userProfilePicture"];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    self.userImageView.image = nil;
-}
+    [super viewDidDisappear:animated];
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self dataContentHidden:YES];
 }
 
 #pragma mark Custom setters and getters
 
--(ServiceManager *)serviceManager
+-(UserDataServiceManager *)serviceManager
 {
-    if(!_serviceManager) _serviceManager = [[ServiceManager alloc] init];
+    if(!_serviceManager) _serviceManager = [[UserDataServiceManager alloc] init];
     
     return _serviceManager;
 }
@@ -98,7 +131,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.currentChartData count];
+    return [self.typesOfUserActivities count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -106,13 +139,11 @@
     ActivityViewCell *cell = (ActivityViewCell *)[tableView dequeueReusableCellWithIdentifier:@"activityCell"];
     
     //Setting up the cell (title, background ,selectiontype, alpha)
-    NSString *activityTitle = [self.currentChartData[indexPath.row] valueForKey:@"type"];
+    NSString *activityTitle = self.typesOfUserActivities[indexPath.row];
     cell.textLabel.text = activityTitle;
-    cell.textLabel.textAlignment = NSTextAlignmentCenter;
     
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.alpha = 0.0;
-    UIColor *bgColor = [ChartView colorOfDataWithIndex:indexPath.row];
+    //Setting up the bg color
+    UIColor *bgColor = self.chartView.colors[indexPath.row];
     cell.backgroundColor = bgColor;
     
     return cell;
@@ -131,26 +162,11 @@
 
 #pragma mark PFLogInViewController Delegate methods
 
-- (BOOL)logInViewController:(PFLogInViewController *)logInController shouldBeginLogInWithUsername:(NSString *)username password:(NSString *)password
-{
-  
-    if (username && password && username.length != 0 && password.length != 0) {
-        return YES;
-    }
-    
-    [[[UIAlertView alloc] initWithTitle:@"Missing Information"
-                                message:@"Make sure you fill out all of the information!"
-                               delegate:nil
-                      cancelButtonTitle:@"ok"
-                      otherButtonTitles:nil] show];
-    return NO;
-}
-
 - (void)logInViewController:(PFLogInViewController *)logInController didLogInUser:(PFUser *)user
 {
-    self.userLoggedIn = YES;
+    self.serviceManager.userLoggedIn = YES;
     
-    UAViewController __weak *weakSelf = self;
+    __weak UAViewController *weakSelf = self;
     
     [self.logInViewController hideWithAnimationAndCompletion:^{
         
@@ -158,47 +174,11 @@
         
         [weakSelf.activityIndicator startAnimating];
     
-        [weakSelf.serviceManager getData];
+        [weakSelf.serviceManager getDataFromService];
     }];
 }
 
 #pragma mark Service Manager Delegate methods
-
--(void)userActivitiesDownloadDidFinish:(NSArray *)userData
-{
-    self.userActivities = userData;
-    
-    //Filtering recieved data according to selected dates
-    self.currentChartData = [self filterUserActivitiesWithStartDate: nil andEndDate: nil];
-    
-    PFUser *user = [PFUser currentUser];
-    
-    PFFile *pictureFile = [user objectForKey:@"userImage"];
-    
-    UAViewController __weak *weakSelf = self;
-    
-    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        if (!error){
-            
-            //set user profile picture
-            self.userImageView.image = [UIImage imageWithData:data];
-            
-             //update progress view
-            [weakSelf.progressBar setProgress:1.0f animated:YES];
-           
-            [UIView animateWithDuration:0.5 delay:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                weakSelf.progressBar.alpha = 0.0;
-            } completion:^(BOOL finished) {
-                weakSelf.progressBar.hidden = YES;
-                [weakSelf prepareChartReloadTableViewAndShowAnimation];
-            }];
-        }
-        else {
-            [self serviceError:error];
-        }
-    }];
-    
-}
 
 //Handling service errors - presenting alert with info about error
 -(void)serviceError:(NSError *)error
@@ -217,6 +197,13 @@
 }
 
 #pragma mark Private methods
+
+-(void)addBackgroundImage
+{
+    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    [self.view addSubview:bgImageView];
+    [self.view sendSubviewToBack:bgImageView];
+}
 
 -(void)resetProgressBar
 {
@@ -238,7 +225,7 @@
     [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
     
     //Sending data to chart and rebuilding it
-    self.chartView.chartData = self.currentChartData;
+    self.chartView.chartData = self.durationsOfUserActivities;
     [self.chartView setNeedsDisplay];
     
     //Reloading the tableview
@@ -250,43 +237,6 @@
     [self showAndAnimate];
 }
 
-//Filtering user activities by start date and end date
-//Converting data to objects recognizable by chart (array of objects with attributes: type and minutes)
--(NSArray *)filterUserActivitiesWithStartDate: (NSDate *)startDate andEndDate:(NSDate *)endDate
-{
-    NSMutableArray *resultArray = [NSMutableArray new];
-    NSArray *results = self.userActivities;
-    
-    if(startDate && endDate) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(startsAt >= %@ ) AND (endsAt <= %@)", startDate, endDate];
-        results = [self.userActivities filteredArrayUsingPredicate:predicate];
-    }
-    
-    NSArray *types = [results valueForKeyPath:@"@distinctUnionOfObjects.type"];
-    for (NSString *type in types)
-    {
-        NSMutableDictionary *entry = [NSMutableDictionary new];
-        [entry setObject:type forKey:@"type"];
-        
-        NSArray *typeDates = [results filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type = %@", type]];
-        
-        int timeInMinutes = 0;
-        for (int i = 0; i < typeDates.count; i++)
-        {
-            if([typeDates[i] isKindOfClass:[UserActivity class]]) {
-                UserActivity *userActivity = typeDates[i];
-                NSTimeInterval seconds = [userActivity.endsAt timeIntervalSinceDate:userActivity.startsAt];
-                timeInMinutes += (seconds/60);
-            }
-        }
-        
-        [entry setObject:[NSNumber numberWithInt:timeInMinutes] forKey:@"minutes"];
-        [resultArray addObject:entry];
-    }
-    
-    return resultArray;
-}
-
 //Animations performed when the data is known and filtered
 -(void)showAndAnimate
 {
@@ -296,7 +246,6 @@
     self.userImageView.alpha = 0.0;
     
     [self dataContentHidden:NO];
-    
     
     //animate user image
     [UIView animateWithDuration:0.2
@@ -346,58 +295,48 @@
 //Action after logout button tapped
 - (IBAction)logout:(id)sender
 {
-    [PFUser logOut];
+    [self.serviceManager logout];
     
     [self presentViewController:self.logInViewController animated:NO completion:nil];
 }
 
-#pragma mark Select Dates View methods
+#pragma mark SelectDatesViewController delegate methods
 
-//Showing action sheet to select start and end dates
-- (IBAction)selectDates:(id)sender {
+-(void)dateSelectDidFinishWithStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
+{
+    self.typesOfUserActivities = [self.userActivityModel typesOfUserActivitiesfFilteredByStartDate:startDate andEndDate:endDate];
+    self.durationsOfUserActivities = [self.userActivityModel durationsOfUserActivitiesFilteredByStartDate:startDate andEndDate:endDate];
+
+    [self.activityIndicator startAnimating];
     
-    [self dataContentHidden:YES];
-    
-    self.selectDatesView.hidden = NO;
+    [self prepareChartReloadTableViewAndShowAnimation];
 }
 
--(IBAction)didSelectDates:(id)sender
+-(void)didCancelTheSelection
 {
-    self.currentChartData = [self filterUserActivitiesWithStartDate:[self.selectDatesView startDate]
-                                                         andEndDate:[self.selectDatesView endDate]];
-    
-    //Check if current data has results in given period of time.
-    //If yes - show chart and tableview
-    //If not - show alert message
-    if ([self.currentChartData count] > 0) {
-        
-        self.selectDatesView.hidden = YES;
-        
-        [self.activityIndicator startAnimating];
-        
-        [self prepareChartReloadTableViewAndShowAnimation];
-        
-    } else {
-        
-        UIAlertController *alertController =
-        [UIAlertController alertControllerWithTitle:@"We have a problem"
-                                            message:@"No activities found in that period of time"
-                                     preferredStyle:UIAlertControllerStyleAlert];
+    [self.activityIndicator startAnimating];
+    [self prepareChartReloadTableViewAndShowAnimation];
+}
 
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:okAction];
-        
-        [self presentViewController:alertController animated:YES completion:nil];
-        
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"userActivities"]) {
+        self.typesOfUserActivities = [self.userActivityModel typesOfUserActivitiesfFilteredByStartDate:nil andEndDate:nil];
+        self.durationsOfUserActivities = [self.userActivityModel durationsOfUserActivitiesFilteredByStartDate:nil andEndDate:nil];
+        [self prepareChartReloadTableViewAndShowAnimation];
+        [self.progressBar setProgress:1.0];
+    }
+    if([keyPath isEqualToString:@"userProfilePicture"]) {
+        self.userImageView.image = self.userActivityModel.userProfilePicture;
     }
 }
 
--(IBAction)didCancelSelectDates:(id)sender
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    self.selectDatesView.hidden = YES;
-    
-    [self dataContentHidden:NO];
+    if([segue.identifier isEqualToString:@"selectDatesSegue"]) {
+        UASelectDateViewController *vc = [segue destinationViewController];
+        vc.delegate = self;
+    }
 }
-
 
 @end

@@ -16,6 +16,10 @@
     
     self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     self.textLabel.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+    
+    self.textLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 @end

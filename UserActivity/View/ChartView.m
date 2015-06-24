@@ -13,28 +13,11 @@
 
 @interface ChartView()
 
-@property (strong, nonatomic) NSArray *colors;
 @property (nonatomic) NSInteger selectedIndex;
 
 @end
 
 @implementation ChartView
-
-//Static method to recieve coherent colors allover application according to data
-+ (UIColor *)colorOfDataWithIndex: (NSUInteger)index
-{
-    static NSArray *colors = nil;
-    if(!colors)
-        colors = @[[UIColor colorWithRed:207.0/255.0 green:240.0/255.0 blue:158.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:168.0/255.0 green:219.0/255.0 blue:168.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:121.0/255.0 green:189.0/255.0 blue:154.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:59.0/255.0 green:134.0/255.0 blue:134.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:11.0/255.0 green:72.0/255.0 blue:107.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:70.0/255.0 green:95.0/255.0 blue:93.0/255.0 alpha:1.0],
-                               [UIColor colorWithRed:63.0/255.0 green:81.0/255.0 blue:81.0/255.0 alpha:1.0]];
-    
-    return colors[index];
-}
 
 //Drawing dougnat chart using Core Graphics
 -(void)drawRect:(CGRect)rect
@@ -47,10 +30,9 @@
         
         //Gather total time of activities
         int totalTime = 0;
-        for (NSObject *obj in self.chartData)
+        for (NSNumber *time in self.chartData)
         {
-            int minutes = [[obj valueForKey:@"minutes"] intValue];
-            totalTime += minutes;
+            totalTime += [time intValue];
         }
         
         //Calculate the angle for one minute of activity
@@ -62,9 +44,9 @@
         int radius = rect.size.height/4;
         
         //Drawing arcs with stroke around the center of view
-        for (NSObject *obj in self.chartData)
+        for (NSNumber *userActivityDuration in self.chartData)
         {
-                minutes += [[obj valueForKey:@"minutes"] intValue];
+                minutes += [userActivityDuration intValue];
                 
                 endAngle = (float) minutes * oneMinuteAngle;
             
@@ -82,8 +64,9 @@
                 CGPathCreateCopyByStrokingPath(arc, NULL, lineWidth, kCGLineCapButt, kCGLineJoinMiter, 10);
                 
                 CAShapeLayer *segment = [CAShapeLayer layer];
-                
-                segment.fillColor = [ChartView colorOfDataWithIndex:[self.chartData indexOfObject:obj]].CGColor;
+            
+                UIColor *color = self.colors[[self.chartData indexOfObject:userActivityDuration]];
+                segment.fillColor = color.CGColor;
             
                 segment.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
                 segment.lineWidth = 2.0;

@@ -10,21 +10,37 @@
 
 @interface ParseService()
 
+@property (nonatomic, copy) void (^userActivitiesCompletionHandler)(NSArray *, NSError*);
+@property (nonatomic, copy) void (^userProfilePictureCompletionHandler)(UIImage *, NSError *);
 @end
 
 @implementation ParseService
 
--(void) getUserActivites
+-(void) getUserActivitesWithCompletion:(void (^)(NSArray *, NSError *))handler
 {
     PFQuery *query = [PFQuery queryWithClassName:@"UserActivity"];
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *data, NSError *error) {
-        if (!error) {
-            [self.delegate userActivitiesDownloadDidFinish:data];
-        } else {
-            [self.delegate serviceError:error];
-        }
+        handler(data, error);
     }];
 }
 
+-(void)getUserProfilePictureWithCompletion:(void (^)(UIImage *, NSError *))handler
+{
+    self.userProfilePictureCompletionHandler = handler;
+    
+    PFUser *user = [PFUser currentUser];
+
+    PFFile *pictureFile = [user objectForKey:@"userImage"];
+    
+    [pictureFile getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+        handler([UIImage imageWithData:data], error);
+    }];
+
+}
+
+-(void)logout
+{
+    [PFUser logOut];
+}
 @end

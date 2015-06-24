@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		335606F51B2E067100A4546E /* ChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606F41B2E067100A4546E /* ChartView.m */; };
 		335606FE1B2E1EF700A4546E /* ParseService.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FB1B2E1EF700A4546E /* ParseService.m */; };
-		335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FD1B2E1EF700A4546E /* ServiceManager.m */; };
+		335606FF1B2E1EF700A4546E /* UserDataServiceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 335606FD1B2E1EF700A4546E /* UserDataServiceManager.m */; };
 		335607091B2E220500A4546E /* ParseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 335607081B2E220500A4546E /* ParseParser.m */; };
 		3356070C1B2E227600A4546E /* UserActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3356070B1B2E227600A4546E /* UserActivity.m */; };
 		338424151B2ADF00002C7E1F /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 338424141B2ADF00002C7E1F /* ParseUI.framework */; };
 		33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 33A9931F1B2AEA660047C256 /* ActivityViewCell.m */; };
 		33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD671B30077C00968E85 /* UALoginViewController.m */; };
-		33D5BD6B1B306F2300968E85 /* SelectDateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD6A1B306F2300968E85 /* SelectDateView.m */; };
+		33D5BD711B39687700968E85 /* UAModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD701B39687700968E85 /* UAModel.m */; };
+		33D5BD741B3985F900968E85 /* UASelectDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD731B3985F900968E85 /* UASelectDateViewController.m */; };
 		33E1B1001B28A01800B10155 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B0FF1B28A01800B10155 /* main.m */; };
 		33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1021B28A01800B10155 /* AppDelegate.m */; };
 		33E1B1061B28A01800B10155 /* UAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UAViewController.m */; };
@@ -52,12 +53,12 @@
 /* Begin PBXFileReference section */
 		335606F31B2E067100A4546E /* ChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartView.h; path = View/ChartView.h; sourceTree = "<group>"; };
 		335606F41B2E067100A4546E /* ChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartView.m; path = View/ChartView.m; sourceTree = "<group>"; };
-		335606F91B2E1EF700A4546E /* DataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataService.h; path = Model/DataService.h; sourceTree = "<group>"; };
+		335606F91B2E1EF700A4546E /* DataServiceProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataServiceProtocol.h; path = Model/DataServiceProtocol.h; sourceTree = "<group>"; };
 		335606FA1B2E1EF700A4546E /* ParseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseService.h; path = Model/ParseService.h; sourceTree = "<group>"; };
 		335606FB1B2E1EF700A4546E /* ParseService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseService.m; path = Model/ParseService.m; sourceTree = "<group>"; };
-		335606FC1B2E1EF700A4546E /* ServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceManager.h; path = Model/ServiceManager.h; sourceTree = "<group>"; };
-		335606FD1B2E1EF700A4546E /* ServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceManager.m; path = Model/ServiceManager.m; sourceTree = "<group>"; };
-		335607061B2E21CB00A4546E /* Parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = Model/Parser.h; sourceTree = "<group>"; };
+		335606FC1B2E1EF700A4546E /* UserDataServiceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDataServiceManager.h; path = Model/UserDataServiceManager.h; sourceTree = "<group>"; };
+		335606FD1B2E1EF700A4546E /* UserDataServiceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDataServiceManager.m; path = Model/UserDataServiceManager.m; sourceTree = "<group>"; };
+		335607061B2E21CB00A4546E /* ParserProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParserProtocol.h; path = Model/ParserProtocol.h; sourceTree = "<group>"; };
 		335607071B2E220500A4546E /* ParseParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParseParser.h; path = Model/ParseParser.h; sourceTree = "<group>"; };
 		335607081B2E220500A4546E /* ParseParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ParseParser.m; path = Model/ParseParser.m; sourceTree = "<group>"; };
 		3356070A1B2E227600A4546E /* UserActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserActivity.h; path = Model/UserActivity.h; sourceTree = "<group>"; };
@@ -67,8 +68,10 @@
 		33A9931F1B2AEA660047C256 /* ActivityViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ActivityViewCell.m; path = View/ActivityViewCell.m; sourceTree = "<group>"; };
 		33D5BD661B30077C00968E85 /* UALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UALoginViewController.h; path = View/UALoginViewController.h; sourceTree = "<group>"; };
 		33D5BD671B30077C00968E85 /* UALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UALoginViewController.m; path = View/UALoginViewController.m; sourceTree = "<group>"; };
-		33D5BD691B306F2300968E85 /* SelectDateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDateView.h; path = View/SelectDateView.h; sourceTree = "<group>"; };
-		33D5BD6A1B306F2300968E85 /* SelectDateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectDateView.m; path = View/SelectDateView.m; sourceTree = "<group>"; };
+		33D5BD6F1B39687700968E85 /* UAModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UAModel.h; path = Model/UAModel.h; sourceTree = "<group>"; };
+		33D5BD701B39687700968E85 /* UAModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UAModel.m; path = Model/UAModel.m; sourceTree = "<group>"; };
+		33D5BD721B3985F900968E85 /* UASelectDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UASelectDateViewController.h; sourceTree = "<group>"; };
+		33D5BD731B3985F900968E85 /* UASelectDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UASelectDateViewController.m; sourceTree = "<group>"; };
 		33E1B0FA1B28A01800B10155 /* UserActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E1B0FE1B28A01800B10155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33E1B0FF1B28A01800B10155 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -138,8 +141,6 @@
 				33A9931F1B2AEA660047C256 /* ActivityViewCell.m */,
 				335606F31B2E067100A4546E /* ChartView.h */,
 				335606F41B2E067100A4546E /* ChartView.m */,
-				33D5BD691B306F2300968E85 /* SelectDateView.h */,
-				33D5BD6A1B306F2300968E85 /* SelectDateView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -169,6 +170,8 @@
 				33E1B1421B28BCEA00B10155 /* Model */,
 				33E1B1041B28A01800B10155 /* UAViewController.h */,
 				33E1B1051B28A01800B10155 /* UAViewController.m */,
+				33D5BD721B3985F900968E85 /* UASelectDateViewController.h */,
+				33D5BD731B3985F900968E85 /* UASelectDateViewController.m */,
 				33D5BD661B30077C00968E85 /* UALoginViewController.h */,
 				33D5BD671B30077C00968E85 /* UALoginViewController.m */,
 				33E1B1071B28A01800B10155 /* Main.storyboard */,
@@ -233,16 +236,18 @@
 		33E1B1421B28BCEA00B10155 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				335606F91B2E1EF700A4546E /* DataService.h */,
+				335606F91B2E1EF700A4546E /* DataServiceProtocol.h */,
 				335606FA1B2E1EF700A4546E /* ParseService.h */,
 				335606FB1B2E1EF700A4546E /* ParseService.m */,
-				335606FC1B2E1EF700A4546E /* ServiceManager.h */,
-				335606FD1B2E1EF700A4546E /* ServiceManager.m */,
-				335607061B2E21CB00A4546E /* Parser.h */,
+				335606FC1B2E1EF700A4546E /* UserDataServiceManager.h */,
+				335606FD1B2E1EF700A4546E /* UserDataServiceManager.m */,
+				335607061B2E21CB00A4546E /* ParserProtocol.h */,
 				335607071B2E220500A4546E /* ParseParser.h */,
 				335607081B2E220500A4546E /* ParseParser.m */,
 				3356070A1B2E227600A4546E /* UserActivity.h */,
 				3356070B1B2E227600A4546E /* UserActivity.m */,
+				33D5BD6F1B39687700968E85 /* UAModel.h */,
+				33D5BD701B39687700968E85 /* UAModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -360,10 +365,11 @@
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
 				33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
+				33D5BD741B3985F900968E85 /* UASelectDateViewController.m in Sources */,
 				335607091B2E220500A4546E /* ParseParser.m in Sources */,
-				33D5BD6B1B306F2300968E85 /* SelectDateView.m in Sources */,
 				33A993201B2AEA660047C256 /* ActivityViewCell.m in Sources */,
-				335606FF1B2E1EF700A4546E /* ServiceManager.m in Sources */,
+				335606FF1B2E1EF700A4546E /* UserDataServiceManager.m in Sources */,
+				33D5BD711B39687700968E85 /* UAModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

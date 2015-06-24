@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Parser.h"
+#import "ParserProtocol.h"
 
-@interface ParseParser : NSObject <Parser>
+@interface ParseParser : NSObject <ParserProtocol>
 
 @end

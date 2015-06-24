@@ -8,19 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "ParseService.h"
-#import "DataService.h"
+#import "DataServiceProtocol.h"
 
 @protocol ServiceManagerDelegate <NSObject>
 
--(void)userActivitiesDownloadDidFinish: (NSArray *)userActivities;
 -(void)serviceError: (NSError *)error;
 
 @end
 
-@interface ServiceManager : NSObject <DataServiceDelegate>
+@interface UserDataServiceManager : NSObject
 
 @property (weak, nonatomic) id<ServiceManagerDelegate> delegate;
+@property (nonatomic, getter=isUserLoggedIn) BOOL userLoggedIn;
 
--(void)getData;
+-(void)getDataFromService;
+-(void)logout;
 
 @end

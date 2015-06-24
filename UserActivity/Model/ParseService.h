@@ -8,10 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Parse/Parse.h>
-#import "DataService.h"
+#import "DataServiceProtocol.h"
 
-@interface ParseService : NSObject <DataService>
-
-@property (weak, nonatomic) id<DataServiceDelegate> delegate;
+@interface ParseService : NSObject <DataServiceProtocol>
 
 @end
