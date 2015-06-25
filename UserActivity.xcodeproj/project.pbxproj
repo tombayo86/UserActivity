@@ -17,6 +17,7 @@
 		33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD671B30077C00968E85 /* UALoginViewController.m */; };
 		33D5BD711B39687700968E85 /* UAModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD701B39687700968E85 /* UAModel.m */; };
 		33D5BD741B3985F900968E85 /* UASelectDateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD731B3985F900968E85 /* UASelectDateViewController.m */; };
+		33D5BD781B3C1BCF00968E85 /* UATypesTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 33D5BD771B3C1BCF00968E85 /* UATypesTableViewDataSource.m */; };
 		33E1B1001B28A01800B10155 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B0FF1B28A01800B10155 /* main.m */; };
 		33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1021B28A01800B10155 /* AppDelegate.m */; };
 		33E1B1061B28A01800B10155 /* UAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33E1B1051B28A01800B10155 /* UAViewController.m */; };
@@ -72,6 +73,8 @@
 		33D5BD701B39687700968E85 /* UAModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UAModel.m; path = Model/UAModel.m; sourceTree = "<group>"; };
 		33D5BD721B3985F900968E85 /* UASelectDateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UASelectDateViewController.h; sourceTree = "<group>"; };
 		33D5BD731B3985F900968E85 /* UASelectDateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UASelectDateViewController.m; sourceTree = "<group>"; };
+		33D5BD761B3C1BCF00968E85 /* UATypesTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UATypesTableViewDataSource.h; path = Controller/UATypesTableViewDataSource.h; sourceTree = "<group>"; };
+		33D5BD771B3C1BCF00968E85 /* UATypesTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UATypesTableViewDataSource.m; path = Controller/UATypesTableViewDataSource.m; sourceTree = "<group>"; };
 		33E1B0FA1B28A01800B10155 /* UserActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UserActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33E1B0FE1B28A01800B10155 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33E1B0FF1B28A01800B10155 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -145,6 +148,21 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		33D5BD751B3C1B8F00968E85 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				33E1B1041B28A01800B10155 /* UAViewController.h */,
+				33E1B1051B28A01800B10155 /* UAViewController.m */,
+				33D5BD721B3985F900968E85 /* UASelectDateViewController.h */,
+				33D5BD731B3985F900968E85 /* UASelectDateViewController.m */,
+				33D5BD661B30077C00968E85 /* UALoginViewController.h */,
+				33D5BD671B30077C00968E85 /* UALoginViewController.m */,
+				33D5BD761B3C1BCF00968E85 /* UATypesTableViewDataSource.h */,
+				33D5BD771B3C1BCF00968E85 /* UATypesTableViewDataSource.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		33E1B0F11B28A01800B10155 = {
 			isa = PBXGroup;
 			children = (
@@ -166,14 +184,9 @@
 		33E1B0FC1B28A01800B10155 /* UserActivity */ = {
 			isa = PBXGroup;
 			children = (
+				33D5BD751B3C1B8F00968E85 /* Controller */,
 				33A9931A1B2AEA010047C256 /* View */,
 				33E1B1421B28BCEA00B10155 /* Model */,
-				33E1B1041B28A01800B10155 /* UAViewController.h */,
-				33E1B1051B28A01800B10155 /* UAViewController.m */,
-				33D5BD721B3985F900968E85 /* UASelectDateViewController.h */,
-				33D5BD731B3985F900968E85 /* UASelectDateViewController.m */,
-				33D5BD661B30077C00968E85 /* UALoginViewController.h */,
-				33D5BD671B30077C00968E85 /* UALoginViewController.m */,
 				33E1B1071B28A01800B10155 /* Main.storyboard */,
 				33E1B10A1B28A01800B10155 /* Images.xcassets */,
 				33E1B10C1B28A01800B10155 /* LaunchScreen.xib */,
@@ -363,6 +376,7 @@
 				335606F51B2E067100A4546E /* ChartView.m in Sources */,
 				3356070C1B2E227600A4546E /* UserActivity.m in Sources */,
 				33E1B1031B28A01800B10155 /* AppDelegate.m in Sources */,
+				33D5BD781B3C1BCF00968E85 /* UATypesTableViewDataSource.m in Sources */,
 				33D5BD681B30077C00968E85 /* UALoginViewController.m in Sources */,
 				33E1B1001B28A01800B10155 /* main.m in Sources */,
 				33D5BD741B3985F900968E85 /* UASelectDateViewController.m in Sources */,

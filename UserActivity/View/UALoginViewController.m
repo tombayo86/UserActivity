@@ -14,6 +14,8 @@
 {
     [super viewDidLoad];
     
+    
+  
     [self.logInView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
     
     //create logo image
@@ -32,6 +34,11 @@
     //Set border for login button
     [[self.logInView.logInButton layer] setBorderColor:[UIColor colorWithWhite:1.0 alpha:1.0].CGColor];
     [[self.logInView.logInButton layer] setBorderWidth:1.0];
+    
+    //Filling out the form
+    self.logInView.usernameField.text = @"test";
+    self.logInView.passwordField.text = @"asd";
+   
 }
 
 //Reseting position of elements of the view
@@ -51,7 +58,7 @@
     [self.logInView.passwordField setAlpha:1.0];
     [self.logInView.usernameField setAlpha:1.0];
     [self.logInView.logInButton setAlpha:1.0];
-    
+   
     [self viewDidLayoutSubviews];
 }
 

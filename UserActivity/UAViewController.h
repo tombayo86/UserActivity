@@ -12,7 +12,7 @@
 #import "UserDataServiceManager.h"
 #import "UASelectDateViewController.h"
 
-@interface UAViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, UITableViewDataSource, ServiceManagerDelegate, SelectDateViewControllerDelegate>
+@interface UAViewController : UIViewController <PFLogInViewControllerDelegate, UITableViewDelegate, ServiceManagerDelegate, SelectDateViewControllerDelegate>
 
 - (IBAction)logout:(id)sender;
 

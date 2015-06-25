@@ -14,6 +14,7 @@
 #import "UserActivity.h"
 #import "ChartView.h"
 #import "UserDataServiceManager.h"
+#import "UATypesTableViewDataSource.h"
 
 @interface UAViewController ()
 
@@ -34,6 +35,8 @@
 @property (strong, nonatomic) NSArray *typesOfUserActivities;
 @property (strong, nonatomic) NSArray *durationsOfUserActivities;
 
+@property (strong, nonatomic) UATypesTableViewDataSource *tableViewDataSource;
+
 @end
 
 @implementation UAViewController
@@ -43,34 +46,36 @@
     [super viewDidLoad];
 
     self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    
+    self.tableView.dataSource = self.tableViewDataSource;
     
     self.logInViewController.delegate = self;
+    
+    //set the fields in loginViewController
     self.logInViewController.fields = PFLogInFieldsUsernameAndPassword | PFLogInFieldsLogInButton;
     
-    //Fill out the form
-    self.logInViewController.logInView.usernameField.text = @"test";
-    self.logInViewController.logInView.passwordField.text = @"asd";
     
-    //set serviceManager delegate
     self.serviceManager.delegate = self;
     
     //creating model instance
     self.userActivityModel = [UAModel sharedModel];
-        [self addBackgroundImage];
+    
+    [self addBackgroundImage];
     
     [self dataContentHidden:YES];
     
-    self.chartView.colors = @[[UIColor colorWithRed:207.0/255.0 green:240.0/255.0 blue:158.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:168.0/255.0 green:219.0/255.0 blue:168.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:121.0/255.0 green:189.0/255.0 blue:154.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:59.0/255.0 green:134.0/255.0 blue:134.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:11.0/255.0 green:72.0/255.0 blue:107.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:70.0/255.0 green:95.0/255.0 blue:93.0/255.0 alpha:1.0],
-                              [UIColor colorWithRed:63.0/255.0 green:81.0/255.0 blue:81.0/255.0 alpha:1.0]];
+    //Instantiate here, because of making the chart more customizable from outside the component itself
+    self.chartView.colors =
+  @[[UIColor colorWithRed:207.0/255.0 green:240.0/255.0 blue:158.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:168.0/255.0 green:219.0/255.0 blue:168.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:121.0/255.0 green:189.0/255.0 blue:154.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:59.0/255.0 green:134.0/255.0 blue:134.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:11.0/255.0 green:72.0/255.0 blue:107.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:70.0/255.0 green:95.0/255.0 blue:93.0/255.0 alpha:1.0],
+    [UIColor colorWithRed:63.0/255.0 green:81.0/255.0 blue:81.0/255.0 alpha:1.0]];
 }
 
-//Hiding chart
+//Hiding chart and adding viewcontroller as a observer for the changes in data inside of the model.
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -93,7 +98,6 @@
     [super viewDidAppear:animated];
     
      if(!self.serviceManager.isUserLoggedIn) [self presentViewController:self.logInViewController animated:NO completion:nil];
-
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -127,37 +131,44 @@
     return _logInViewController;
 }
 
+-(void)setTypesOfUserActivities:(NSArray *)typesOfUserActivities
+{
+    _typesOfUserActivities = typesOfUserActivities;
+    self.tableViewDataSource.items = typesOfUserActivities;
+}
+
+-(void)setDurationsOfUserActivities:(NSArray *)durationsOfUserActivities
+{
+    _durationsOfUserActivities = durationsOfUserActivities;
+    self.chartView.chartData = durationsOfUserActivities;
+    [self.chartView setNeedsDisplay];
+}
+
+-(UATypesTableViewDataSource *)tableViewDataSource
+{
+    if(!_tableViewDataSource) {
+        _tableViewDataSource = [[UATypesTableViewDataSource alloc] initWithItems:self.typesOfUserActivities cellIdentifier:@"activityCell" configureCellBlock:^(ActivityViewCell * cell, NSInteger index) {
+            
+            cell.backgroundColor = self.chartView.colors[index];
+            
+        }];
+    }
+    return _tableViewDataSource;
+}
+
+
+
 #pragma mark UITableViewDelegate methods
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.typesOfUserActivities count];
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    ActivityViewCell *cell = (ActivityViewCell *)[tableView dequeueReusableCellWithIdentifier:@"activityCell"];
-    
-    //Setting up the cell (title, background ,selectiontype, alpha)
-    NSString *activityTitle = self.typesOfUserActivities[indexPath.row];
-    cell.textLabel.text = activityTitle;
-    
-    //Setting up the bg color
-    UIColor *bgColor = self.chartView.colors[indexPath.row];
-    cell.backgroundColor = bgColor;
-    
-    return cell;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 60;
-}
 
 //Selecting slice on chart
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.chartView selectPartWithIndex:indexPath.row];
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
 }
 
 #pragma mark PFLogInViewController Delegate methods
@@ -222,11 +233,8 @@
 
 -(void)prepareChartReloadTableViewAndShowAnimation
 {
+    //reset tableviews position
     [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
-    
-    //Sending data to chart and rebuilding it
-    self.chartView.chartData = self.durationsOfUserActivities;
-    [self.chartView setNeedsDisplay];
     
     //Reloading the tableview
     [self.tableView reloadData];
@@ -300,6 +308,15 @@
     [self presentViewController:self.logInViewController animated:NO completion:nil];
 }
 
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue.identifier isEqualToString:@"selectDatesSegue"]) {
+        UASelectDateViewController *vc = [segue destinationViewController];
+        vc.delegate = self;
+    }
+}
+
 #pragma mark SelectDatesViewController delegate methods
 
 -(void)dateSelectDidFinishWithStartDate:(NSDate *)startDate andEndDate:(NSDate *)endDate
@@ -318,6 +335,8 @@
     [self prepareChartReloadTableViewAndShowAnimation];
 }
 
+
+//Oberserving handler
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"userActivities"]) {
@@ -331,12 +350,5 @@
     }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if([segue.identifier isEqualToString:@"selectDatesSegue"]) {
-        UASelectDateViewController *vc = [segue destinationViewController];
-        vc.delegate = self;
-    }
-}
 
 @end

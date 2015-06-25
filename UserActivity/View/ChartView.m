@@ -44,38 +44,39 @@
         int radius = rect.size.height/4;
         
         //Drawing arcs with stroke around the center of view
-        for (NSNumber *userActivityDuration in self.chartData)
-        {
-                minutes += [userActivityDuration intValue];
-                
-                endAngle = (float) minutes * oneMinuteAngle;
+        for (int i = 0; i<[self.chartData count]; i++) {
+      
+            NSNumber *userActivityDuration = self.chartData[i];
+            minutes += [userActivityDuration intValue];
             
-                CGMutablePathRef arc = CGPathCreateMutable();
-                CGPathAddArc(arc, NULL,
-                             self.frame.size.width/2, self.frame.size.height/2,
-                             radius,
-                             DEGREES_TO_RADIANS(startAngle),
-                             DEGREES_TO_RADIANS(-endAngle),
-                             YES);
+            endAngle = (float) minutes * oneMinuteAngle;
+        
+            CGMutablePathRef arc = CGPathCreateMutable();
+            CGPathAddArc(arc, NULL,
+                         self.frame.size.width/2, self.frame.size.height/2,
+                         radius,
+                         DEGREES_TO_RADIANS(startAngle),
+                         DEGREES_TO_RADIANS(-endAngle),
+                         YES);
+        
+        
+            CGFloat lineWidth = rect.size.height/3.5;
+            CGPathRef strokedArc =
+            CGPathCreateCopyByStrokingPath(arc, NULL, lineWidth, kCGLineCapButt, kCGLineJoinMiter, 10);
             
-            
-                CGFloat lineWidth = rect.size.height/3.5;
-                CGPathRef strokedArc =
-                CGPathCreateCopyByStrokingPath(arc, NULL, lineWidth, kCGLineCapButt, kCGLineJoinMiter, 10);
-                
-                CAShapeLayer *segment = [CAShapeLayer layer];
-            
-                UIColor *color = self.colors[[self.chartData indexOfObject:userActivityDuration]];
-                segment.fillColor = color.CGColor;
-            
-                segment.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
-                segment.lineWidth = 2.0;
-                segment.path = strokedArc;
-            
-                segment.opacity = 0.0;
-                [self.layer addSublayer:segment];
-            
-                startAngle = -endAngle;
+            CAShapeLayer *segment = [CAShapeLayer layer];
+        
+            UIColor *color = self.colors[i];
+            segment.fillColor = color.CGColor;
+        
+            segment.strokeColor = [UIColor colorWithWhite:1.0 alpha:0.3].CGColor;
+            segment.lineWidth = 2.0;
+            segment.path = strokedArc;
+        
+            segment.opacity = 0.0;
+            [self.layer addSublayer:segment];
+        
+            startAngle = -endAngle;
         }
         
         for (CAShapeLayer *layer in self.layer.sublayers) {
